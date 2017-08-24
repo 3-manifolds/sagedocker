@@ -16,7 +16,7 @@ with all the environment variables set as if you had executed ``sage
 This image takes a long time to build, even on a fast computer, since
 it compiles SageMath from source, and weighs in at just under 4GB (1GB
 compressed). I recommend you use the `posted image
-<https://hub.docker.com/r/nathandunfield/sage/>` on DockerHub::
+<https://hub.docker.com/r/nathandunfield/sage/>`_ on DockerHub::
 
   docker pull nathandunfield/sage
   docker run -i -t nathandunfield/sage
