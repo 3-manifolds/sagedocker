@@ -14,4 +14,31 @@ with all the environment variables set as if you had executed ``sage
 -sh``.  In particular, ``python`` is SageMath's Python.
 
 This image takes a long time to build, even on a fast computer, since
-it compiles SageMath from source.
+it compiles SageMath from source, and weighs in at just under 4GB (1GB
+compressed). I recommend you use the `posted image
+<https://hub.docker.com/r/nathandunfield/sage/>` on DockerHub::
+
+  docker pull nathandunfield/sage
+  docker run -i -t nathandunfield/sage
+
+Other uses
+==========
+
+SageMath and all the extras are installed in ``/sage``.  You can make
+a tarball of that and copy it over to another Ubuntu 16.04 machine.
+You will need to have certain system packages installed for this to
+work.  Those `listed here
+<https://bitbucket.org/nathan_dunfield/sagedocker/src/tip/sage/scripts/00_ubuntu_packages.sh>`_
+are certainly enough, though surely one could get by with much less.
+  
+Building
+========
+
+To build from scratch, which takes 1.3 hours using all 8 cores on a Mac
+Pro::
+
+  docker build --tag=nathandunfield/sage sage
+
+Put out on DockerHub::
+
+  docker push nathandunfield/sage
