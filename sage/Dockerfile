@@ -81,12 +81,8 @@ RUN wget -nv -O /tmp/tarballs/qd.tar.gz \
 # SageMath 8.0 comes with a small headers only version of Boost 1.58,
 # which we simply clobber.
 
-# Current master, but doesn't work for gcc 7.
-# ARG REGINAREPO=regina-normal
-# ARG REGINA_COMMIT=52a3941
-
-ARG REGINAREPO=NathanDunfield
-ARG REGINA_COMMIT=24cc12d
+ARG REGINAREPO=regina-normal
+ARG REGINA_COMMIT=9bab3c9
 
 COPY scripts/03_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
