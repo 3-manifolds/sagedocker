@@ -39,6 +39,9 @@ Pro::
 
   docker build --tag=nathandunfield/sage sage
 
+If compiling Sage fails, make sure the Docker application is
+configured so that it can use at least 4GB of memory.
+
 Put out on DockerHub::
 
   docker push nathandunfield/sage

@@ -1,0 +1,40 @@
+--- makefile_unix.orig	2017-08-23 15:27:18.000000000 -0500
++++ makefile_unix.new	2017-08-23 22:17:14.000000000 -0500
+@@ -10,8 +10,8 @@
+ 
+ # Location of Python for 2.7 and 3.6 development headers for phcpy
+ 
+-PYTHON=/usr/include/python2.7
+-PYTHON3=/usr/local/include/python3.6m
++PYTHON=/sage/local/include/python2.7
++PYTHON3=/sage/local/include/python3.6m
+ 
+ # The location of the Sage Python lib:
+ 
+@@ -19,10 +19,12 @@
+ 
+ # The location of the adalib folder for the GNATGPL compiler:
+ 
+-# for GNAT GPL 2016 :
++# For GNAT GPL 2016 :
+ # ADALIB=/usr/gnat-gpl-2016/lib/gcc/x86_64-pc-linux-gnu/4.9.4/adalib
+-# FOR GNAT GPL 2017 :
+-ADALIB=/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/6.3.1/adalib
++# For GNAT GPL 2017 :
++# ADALIB=/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/6.3.1/adalib
++# For Ubuntu with gnat-7
++ADALIB=/usr/lib/gcc/x86_64-linux-gnu/7/adalib
+ 
+ # The location of the g++ compiler
+ 
+@@ -37,8 +39,8 @@
+ 
+ # Location of the QD library and its GPU version:
+ 
+-QD_ROOT=/usr/local/qd-2.3.17
+-QD_LIB=/usr/local/lib
++QD_ROOT=/sage/local/qd-2.3.17
++QD_LIB=/sage/local/lib
+ GQD_HOME=/usr/local/gqd_1_2
+ SDK_HOME=/usr/local/cuda/sdk
+ 
