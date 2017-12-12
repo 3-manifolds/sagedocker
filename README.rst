@@ -27,11 +27,9 @@ second starts a container that is running said image.  Moving files
 between the container and the rest of the world can be done using
 ``scp`` or having the container mount a local directory as in this example::
 
-  docker run -dit --mount
-  type=bind,source="$HOME/Dropbox/linux_share",target=/home/sage/linux_share
-  computop/sage
+  docker run -it --mount type=bind,source="$HOME/Dropbox/linux_share",target=/home/sage/linux_share computop/sage
 
-where the directory `linux_share` inside the user's `Dropbox` folder is
+where the directory ``linux_share`` inside the user's ``Dropbox`` folder is
 shared. 
 
 Other uses
