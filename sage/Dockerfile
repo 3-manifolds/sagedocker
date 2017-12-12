@@ -101,14 +101,17 @@ RUN wget -q -O /tmp/tarballs/boost.tar.gz   \
 COPY scripts/04_more_python_pkgs.sh .
 RUN /bin/bash 04_more_python_pkgs.sh
     
+# Add in a different interface to PHC.  
+
+COPY scripts/05_cyphc.sh .
+RUN /bin/bash 05_cyphc.sh /sage
+
 # Now add SnapPy and other core t3m projects
 
 ARG SILLY=TRUE5
-COPY scripts/05_snappy_and_friends.sh .
-RUN /bin/bash 05_snappy_and_friends.sh
+COPY scripts/06_snappy_and_friends.sh .
+RUN /bin/bash 06_snappy_and_friends.sh
 
-COPY scripts/06_cyphc.sh .
-RUN /bin/bash 06_cyphc.sh /sage
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
