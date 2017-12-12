@@ -40,7 +40,7 @@ ENV SAGE_BANNER bare
 #
 ########################################################################
 
-ARG SAGE_VERSION=8.0
+ARG SAGE_VERSION=8.1
 
 COPY scripts/01_build_sage.sh .
 RUN  wget -q -O /tmp/tarballs/sage.tar.gz \
@@ -73,42 +73,43 @@ RUN wget -nv -O /tmp/tarballs/qd.tar.gz \
     /bin/bash 02_phcpy.sh /sage /tmp/tarballs  && \
     sudo rm -rf /tmp/scripts/* /tmp/tarballs/* 
 
+# Add in a *second* custom interface to PHC.  
 
+COPY scripts/03_cyphc.sh .
+RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
+        https://bitbucket.org/t3m/cyphc/get/tip.tar.gz && \
+    /bin/bash 03_cyphc.sh /sage /tmp/tarballs  && \
+    sudo rm -rf /tmp/scripts/* /tmp/tarballs/*
 
-# Second, build Regina, installing it in a way so we can build
-# additional C++ software against it.
+# Now build Regina, installing it in a way so we can build additional
+# C++ software against it.
 #
-# SageMath 8.0 comes with a small headers only version of Boost 1.58,
+# SageMath 8.* comes with a small headers only version of Boost 1.58,
 # which we simply clobber.
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=9bab3c9
+ARG REGINA_COMMIT=de8f5a7
 
-COPY scripts/03_build_regina.sh .
+COPY scripts/04_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
          http://sf.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.gz && \
     wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
          http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
     wget -q -O /tmp/tarballs/regina.tar.gz \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
-    /bin/bash 03_build_regina.sh /sage /tmp/tarballs && \
+    /bin/bash 04_build_regina.sh /sage /tmp/tarballs && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
     
-COPY scripts/04_more_python_pkgs.sh .
-RUN /bin/bash 04_more_python_pkgs.sh
-    
-# Add in a different interface to PHC.  
+COPY scripts/05_more_python_pkgs.sh .
+RUN /bin/bash 05_more_python_pkgs.sh
+   
+# Finally add SnapPy and other core t3m projects
 
-COPY scripts/05_cyphc.sh .
-RUN /bin/bash 05_cyphc.sh /sage
-
-# Now add SnapPy and other core t3m projects
-
-ARG SILLY=TRUE5
+ARG SILLY=1
 COPY scripts/06_snappy_and_friends.sh .
 RUN /bin/bash 06_snappy_and_friends.sh
 
