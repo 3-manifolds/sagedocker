@@ -1,0 +1,20 @@
+--- sage-notebook-original	2017-12-18 19:43:23.000000000 -0600
++++ sage-notebook	2017-12-18 20:10:10.000000000 -0600
+@@ -84,7 +84,7 @@
+ 
+     def print_banner(self):
+         banner()
+-        print('Please wait while the Sage Jupyter Notebook server starts...')
++        print('Starting up Sage Jupyter Notebook, viewable at http://localhost:8888')
+ 
+     @classmethod
+     def print_help(cls):
+@@ -183,7 +183,7 @@
+ 
+ 
+ notebook_launcher = {
+-    'default': SageNBExport,   # change this to change the default
++    'default': NotebookJupyter,   # change this to change the default
+     'sagenb': NotebookSageNB,
+     'ipython': NotebookJupyter,
+     'jupyter': NotebookJupyter,

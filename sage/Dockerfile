@@ -113,11 +113,17 @@ ARG SILLY=1
 COPY scripts/06_snappy_and_friends.sh .
 RUN /bin/bash 06_snappy_and_friends.sh
 
+# Config Sage's Jupyter notebook
 
+COPY scripts/jupyter_notebook_config.py .
+COPY scripts/sage-notebook.patch .
+RUN cp jupyter_notebook_config.py /home/sage/.sage/jupyter*/ && \ 
+    patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
+    patch /sage/src/bin/sage-notebook sage-notebook.patch
+    
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
 
 USER sage
-EXPOSE 8080
 WORKDIR /home/sage
 CMD ["/bin/bash"]
