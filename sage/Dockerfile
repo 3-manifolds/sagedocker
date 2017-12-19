@@ -22,7 +22,7 @@ RUN mkdir /tmp/scripts /tmp/tarballs
 WORKDIR /tmp/scripts
 COPY scripts/00_ubuntu_packages.sh .
 RUN /bin/bash 00_ubuntu_packages.sh
-		  
+ 
 # We *have* to add a non-root user since sage cannot be built as root
 # However, we do allow the 'sage' user to use sudo without a password
 
@@ -88,7 +88,7 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # which we simply clobber.
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=de8f5a7
+ARG REGINA_COMMIT=d476b847f037
 
 COPY scripts/04_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
@@ -118,5 +118,6 @@ RUN /bin/bash 06_snappy_and_friends.sh
 # without password if need be.
 
 USER sage
+EXPOSE 8080
 WORKDIR /home/sage
 CMD ["/bin/bash"]
