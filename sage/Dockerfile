@@ -117,7 +117,8 @@ RUN /bin/bash 06_snappy_and_friends.sh
 
 COPY scripts/jupyter_notebook_config.py .
 COPY scripts/sage-notebook.patch .
-RUN cp jupyter_notebook_config.py /home/sage/.sage/jupyter*/ && \ 
+RUN cat jupyter_notebook_config.py >>   \
+       /sage/local/etc/jupyter/jupyter_notebook_config.py  && \ 
     patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
     patch /sage/src/bin/sage-notebook sage-notebook.patch
     
