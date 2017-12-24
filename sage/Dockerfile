@@ -122,6 +122,14 @@ RUN cat jupyter_notebook_config.py >>   \
     patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
     patch /sage/src/bin/sage-notebook sage-notebook.patch
     
+# Install PyGraphviz
+
+RUN sudo apt-get update && \ 
+    sudo apt-get install -y libgraphviz-dev screen && \
+    sage -pip install pygraphviz && \
+    sudo apt-get remove -y libgraphviz-dev && sudo apt-get autoremove -y
+
+
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
 
