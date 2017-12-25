@@ -60,15 +60,16 @@ Components
 An partial list of included software:
 
 * `SageMath <http://sagemath.org>`_
-* `SnapPy <http://bitbucket.org/t3m/snappy>`_
+* `SnapPy <http://snappy.computop.org>`_
 * `Regina <http://regina-normal.github.io/>`_
 * Two Python interfaces to `PHCPack
   <http://homepages.math.uic.edu/~jan/>`_
 * `pandas <http://pandas.pydata.org/>`_
 * `pe <http://bitbucket.org/t3m/pe>`_
 * `gridlink <http://bitbucket.org/t3m/gridlink>`_
-* `flipper <http://bitbucket.org/mark_bell/flipper>`_ and `curver <http://bitbucket.org/mark_bell/curver>`_
-
+* `flipper <http://flipper.readthedocs.io>`_ and `curver <http://curver.readthedocs.io>`_
+* `heegaard <http://bitbucket.org/t3m/heegaard>`_
+* `pygraphviz <http://pygraphviz.github.io/>`_
 
 Building
 ========
