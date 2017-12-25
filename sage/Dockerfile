@@ -129,6 +129,10 @@ RUN sudo apt-get update && \
     sage -pip install pygraphviz && \
     sudo apt-get remove -y libgraphviz-dev && sudo apt-get autoremove -y
 
+# Install Heegaard
+
+COPY scripts/07_heegaard.sh .
+RUN /bin/bash 07_heegaard.sh
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
