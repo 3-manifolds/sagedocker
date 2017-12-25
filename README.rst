@@ -53,7 +53,23 @@ You will need to have certain system packages installed for this to
 work.  Those `listed here
 <https://bitbucket.org/t3m/sagedocker/src/tip/sage/scripts/00_ubuntu_packages.sh>`_
 are certainly enough, though surely one could get by with much less.
-  
+
+Components
+==========
+
+An partial list of included software:
+
+* `SageMath <http://sagemath.org>`_
+* `SnapPy <http://bitbucket.org/t3m/snappy>`_
+* `Regina <http://regina-normal.github.io/>`_
+* Two Python interfaces to `PHCPack
+  <http://homepages.math.uic.edu/~jan/>`_
+* `pandas <http://pandas.pydata.org/>`_
+* `pe <http://bitbucket.org/t3m/pe>`_
+* `gridlink <http://bitbucket.org/t3m/gridlink>`_
+* `flipper <http://bitbucket.org/mark_bell/flipper>`_ and `curver <http://bitbucket.org/mark_bell/curver>`_
+
+
 Building
 ========
 
