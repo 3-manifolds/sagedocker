@@ -5,4 +5,6 @@ sage -pip install hg+https://bitbucket.org/t3m/gridlink
 sage -pip install hg+https://bitbucket.org/t3m/spherogram
 sage -pip install hg+https://bitbucket.org/t3m/snappy
 sage -pip install hg+https://bitbucket.org/t3m/pe
+sage -pip install flipper
+sage -pip install curver
 sage -python -m snappy.test
