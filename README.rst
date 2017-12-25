@@ -30,7 +30,19 @@ between the container and the rest of the world can be done using
   docker run -it --mount type=bind,source="$HOME/Dropbox/linux_share",target=/home/sage/linux_share computop/sage
 
 where the directory ``linux_share`` inside the user's ``Dropbox`` folder is
-shared. 
+shared.
+
+If you want to use Sage's Jupyter notebook interface, start the
+container via::
+
+  docker run -it -p 8888:8888 computop/sage
+
+and in said container type::
+
+  sage --notebook
+
+and then point your computer's web browser to
+``http://localhost:8888``.
 
 Other uses
 ==========
