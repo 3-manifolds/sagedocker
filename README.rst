@@ -57,7 +57,7 @@ are certainly enough, though surely one could get by with much less.
 Components
 ==========
 
-An partial list of included software:
+A partial list of included software:
 
 * `SageMath <http://sagemath.org>`_
 * `SnapPy <http://snappy.computop.org>`_

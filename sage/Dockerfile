@@ -48,6 +48,15 @@ RUN  wget -q -O /tmp/tarballs/sage.tar.gz \
      /bin/bash 01_build_sage.sh && \
      chown -R sage:sage /tmp/scripts /tmp/tarballs
 
+# Config Sage's Jupyter notebook
+
+COPY scripts/jupyter_notebook_config.py .
+COPY scripts/sage-notebook.patch .
+RUN cat jupyter_notebook_config.py >>   \
+       /sage/local/etc/jupyter/jupyter_notebook_config.py  && \ 
+    patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
+    patch /sage/src/bin/sage-notebook sage-notebook.patch
+
 ########################################################################
 #
 # Add additional Python packages, include SnapPy, Regina, and PHCpack
@@ -106,22 +115,15 @@ RUN wget -q -O /tmp/tarballs/boost.tar.gz   \
     
 COPY scripts/05_more_python_pkgs.sh .
 RUN /bin/bash 05_more_python_pkgs.sh
-   
+
+
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=1
+ARG SILLY=11
 COPY scripts/06_snappy_and_friends.sh .
 RUN /bin/bash 06_snappy_and_friends.sh
 
-# Config Sage's Jupyter notebook
 
-COPY scripts/jupyter_notebook_config.py .
-COPY scripts/sage-notebook.patch .
-RUN cat jupyter_notebook_config.py >>   \
-       /sage/local/etc/jupyter/jupyter_notebook_config.py  && \ 
-    patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
-    patch /sage/src/bin/sage-notebook sage-notebook.patch
-    
 # Install PyGraphviz
 
 RUN sudo apt-get update && \ 
