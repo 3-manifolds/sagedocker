@@ -41,10 +41,11 @@ ENV SAGE_BANNER bare
 ########################################################################
 
 ARG SAGE_VERSION=8.1
+ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
+#ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 
 COPY scripts/01_build_sage.sh .
-RUN  wget -q -O /tmp/tarballs/sage.tar.gz \
-          http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz && \
+RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
      /bin/bash 01_build_sage.sh && \
      chown -R sage:sage /tmp/scripts /tmp/tarballs
 
@@ -70,7 +71,7 @@ USER sage
 WORKDIR /tmp/scripts
 
 ARG QD_VERSION=2.3.17
-ARG PHC_VERSION=v2.4.43
+ARG PHC_VERSION=v2.4.52
 
 COPY scripts/02_phcpy.sh .
 COPY scripts/makefile_unix.patch . 
