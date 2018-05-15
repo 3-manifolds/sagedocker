@@ -1,4 +1,4 @@
-# USAGE: /bin/bash build_regina.sh SAGE_ROOT_DIR TARBALL_DIR
+# USAGE: /bin/bash this_script.sh SAGE_ROOT_DIR TARBALL_DIR
 
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
