@@ -42,7 +42,14 @@ and in said container type::
   sage --notebook
 
 and then point your computer's web browser to
-``http://localhost:8888``.
+``http://localhost:8888``.  If you want to use the beta `JupyterLab
+<https://jupyterlab.readthedocs.io/en/stable/>`_, which will
+eventually superseded Jupyter, you can instead do::
+
+   sage --notebook jupyterlab
+
+In JupyterLab, you have access not just to notebooks but also Python
+consoles and shell terminal windows.
 
 Other uses
 ==========
