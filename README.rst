@@ -70,6 +70,8 @@ A partial list of included software:
 * `flipper <http://flipper.readthedocs.io>`_ and `curver <http://curver.readthedocs.io>`_
 * `heegaard <http://bitbucket.org/t3m/heegaard>`_
 * `pygraphviz <http://pygraphviz.github.io/>`_
+* `snap <http://snap-pari.sourceforge.net>`_
+* `HIKMOT <http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/>`_
 
 Building
 ========

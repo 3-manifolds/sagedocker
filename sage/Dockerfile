@@ -40,7 +40,7 @@ ENV SAGE_BANNER bare
 #
 ########################################################################
 
-ARG SAGE_VERSION=8.1
+ARG SAGE_VERSION=8.2
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 
@@ -60,6 +60,21 @@ RUN cat jupyter_notebook_config.py >>   \
 
 ########################################################################
 #
+# Build one thing that is independent of Sage
+#
+########################################################################
+
+COPY scripts/02_build_snap.sh .
+ARG OLD_PARI_URL=https://pari.math.u-bordeaux.fr/pub/pari/unix/OLD/2.3/pari-2.3.5.tar.gz
+ARG SNAP_URL=https://sourceforge.net/projects/snap-pari/files/latest/download?source=file
+RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
+     wget -q -O /tmp/tarballs/snap.tar.gz $SNAP_URL && \
+     /bin/bash 02_build_snap.sh /sage /tmp/tarballs && \
+     chown -R sage:sage /tmp/scripts /tmp/tarballs /sage && \
+     ln -s /sage/opt/snap/bin/snap /sage/local/bin/snap
+
+########################################################################
+#
 # Add additional Python packages, include SnapPy, Regina, and PHCpack
 #
 ########################################################################
@@ -73,56 +88,57 @@ WORKDIR /tmp/scripts
 ARG QD_VERSION=2.3.17
 ARG PHC_VERSION=v2.4.52
 
-COPY scripts/02_phcpy.sh .
+COPY scripts/03_phcpy.sh .
 COPY scripts/makefile_unix.patch . 
 
 RUN wget -nv -O /tmp/tarballs/qd.tar.gz \
         http://crd.lbl.gov/~dhbailey/mpdist/qd-$QD_VERSION.tar.gz && \
     wget -nv -O /tmp/tarballs/PHC.tar.gz \
     	https://github.com/janverschelde/PHCpack/archive/$PHC_VERSION.tar.gz && \
-    /bin/bash 02_phcpy.sh /sage /tmp/tarballs  && \
+    /bin/bash 03_phcpy.sh /sage /tmp/tarballs  && \
     sudo rm -rf /tmp/scripts/* /tmp/tarballs/* 
 
 # Add in a *second* custom interface to PHC.  
 
-COPY scripts/03_cyphc.sh .
+COPY scripts/04_cyphc.sh .
 RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
         https://bitbucket.org/t3m/cyphc/get/tip.tar.gz && \
-    /bin/bash 03_cyphc.sh /sage /tmp/tarballs  && \
+    /bin/bash 04_cyphc.sh /sage /tmp/tarballs  && \
     sudo rm -rf /tmp/scripts/* /tmp/tarballs/*
 
 # Now build Regina, installing it in a way so we can build additional
 # C++ software against it.
 #
 # SageMath 8.* comes with a small headers only version of Boost 1.58,
-# which we simply clobber.
+# which we simply clobber.  Boost 1.61 is the newest version than can
+# be used with the system's CMake 3.5.
 
 ARG REGINAREPO=regina-normal
 ARG REGINA_COMMIT=d476b847f037
 
-COPY scripts/04_build_regina.sh .
+COPY scripts/05_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
-         http://sf.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.gz && \
+         http://sf.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz && \
     wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
          http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
     wget -q -O /tmp/tarballs/regina.tar.gz \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
-    /bin/bash 04_build_regina.sh /sage /tmp/tarballs && \
+    /bin/bash 05_build_regina.sh /sage /tmp/tarballs && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
     
-COPY scripts/05_more_python_pkgs.sh .
-RUN /bin/bash 05_more_python_pkgs.sh
+COPY scripts/06_more_python_pkgs.sh .
+RUN /bin/bash 06_more_python_pkgs.sh
 
 
 # Finally add SnapPy and other core t3m projects
 
 ARG SILLY=11
-COPY scripts/06_snappy_and_friends.sh .
-RUN /bin/bash 06_snappy_and_friends.sh
+COPY scripts/07_snappy_and_friends.sh .
+RUN /bin/bash 07_snappy_and_friends.sh
 
 
 # Install PyGraphviz
@@ -134,12 +150,20 @@ RUN sudo apt-get update && \
 
 # Install Heegaard
 
-COPY scripts/07_heegaard.sh .
-RUN /bin/bash 07_heegaard.sh
+COPY scripts/08_heegaard.sh .
+RUN /bin/bash 08_heegaard.sh
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
 
+# Install HIKMOT
+
+COPY scripts/09_hikmot.sh .
+COPY scripts/hikmot.patch .
+RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
+         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
+RUN /bin/bash 09_hikmot.sh /sage /tmp/tarballs
+    
 USER sage
 WORKDIR /home/sage
 CMD ["/bin/bash"]
