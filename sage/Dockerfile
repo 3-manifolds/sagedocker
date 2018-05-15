@@ -64,14 +64,18 @@ RUN cat jupyter_notebook_config.py >>   \
 #
 ########################################################################
 
+USER sage
+WORKDIR /tmp/scripts
+
 COPY scripts/02_build_snap.sh .
 ARG OLD_PARI_URL=https://pari.math.u-bordeaux.fr/pub/pari/unix/OLD/2.3/pari-2.3.5.tar.gz
 ARG SNAP_URL=https://sourceforge.net/projects/snap-pari/files/latest/download?source=file
+
 RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
      wget -q -O /tmp/tarballs/snap.tar.gz $SNAP_URL && \
      /bin/bash 02_build_snap.sh /sage /tmp/tarballs && \
-     chown -R sage:sage /tmp/scripts /tmp/tarballs /sage && \
-     ln -s /sage/opt/snap/bin/snap /sage/local/bin/snap
+     ln -s /sage/opt/snap/bin/snap /sage/local/bin/snap && \
+     rm -rf /tmp/scripts/* /tmp/tarballs/* 
 
 ########################################################################
 #
@@ -81,9 +85,6 @@ RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
 
 # Build order is the reverse of how frequently I expect to change
 # things, start with the Python interface to PHCpack.
-
-USER sage
-WORKDIR /tmp/scripts
 
 ARG QD_VERSION=2.3.17
 ARG PHC_VERSION=v2.4.52
