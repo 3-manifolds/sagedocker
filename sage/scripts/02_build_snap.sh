@@ -11,8 +11,8 @@ echo "Cores: $N_CORES"
 
 install_old_gcc ()
 {
-    apt-get -y -qq update
-    apt-get -y install gcc-4.6 g++-4.6 libreadline-dev
+    sudo apt-get -y -qq update
+    sudo apt-get -y install gcc-4.6 g++-4.6 libreadline-dev
 }
 
 unpack_source ()
@@ -45,10 +45,10 @@ build_snap () {
 
 remove_old_gcc ()
 {
-    apt-get -y remove gcc-4.6 g++-4.6 libreadline-dev
-    apt -y autoremove
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
+    sudo apt-get -y remove gcc-4.6 g++-4.6 libreadline-dev
+    sudo apt -y autoremove
+    sudo apt-get clean
+    sudo rm -rf /var/lib/apt/lists/*
 }
 
 install_old_gcc 
