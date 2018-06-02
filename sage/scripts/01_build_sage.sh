@@ -27,6 +27,10 @@ sudo -H -E -u sage make build || exit 1
 # Add aliases for sage and sagemath
 ln -sf "/sage/sage" /usr/bin/sage
 
+# Install some optional Sage packages
+sudo -H -E -u sage ./sage -i giacpy_sage
+
+
 # Clean up artifacts from the sage build that we don't need for runtime or
 # running the tests
 #
