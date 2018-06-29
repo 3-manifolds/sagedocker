@@ -35,7 +35,7 @@ shared.
 If you want to use Sage's Jupyter notebook interface, start the
 container via::
 
-  docker run -it -p 8888:8888 computop/sage
+  docker run -it -p 127.0.0.1:8888:8888 computop/sage
 
 and in said container type::
 
