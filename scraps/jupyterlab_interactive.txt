@@ -1,0 +1,20 @@
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+pip install ipympl
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+sage --notebook jupyterlab
+
+----
+
+%matplotlib ipympl
+import numpy as np
+import matplotlib.pyplot as plt
+plt.interactive(True)
+
+fig, ax1 = plt.subplots()
+t = np.arange(0.01, 10.0, 0.01)
+data1 = np.exp(t)
+ax1.plot(t, data1)
+plt.show()
+
+
