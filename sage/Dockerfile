@@ -137,33 +137,37 @@ RUN /bin/bash 06_more_python_pkgs.sh
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=13
+ARG SILLY=14
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 
+# Scraps, move eariler eventually
+RUN sudo apt-get update && \
+    sudo apt-get install -y screen && \
+    sudo apt-get remove -y graphviz && sudo apt-get autoremove -y
 
-# Install PyGraphviz
-
-RUN sudo apt-get update && \ 
-    sudo apt-get install -y libgraphviz-dev screen && \
-    sage -pip install pygraphviz && \
-    sudo apt-get remove -y libgraphviz-dev && sudo apt-get autoremove -y
+# Install Graphviz and PyGraphviz
+COPY scripts/08_graphviz.sh .
+RUN wget -q -O /tmp/tarballs/graphviz.tar.gz   \ 
+         https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz && \
+    /bin/bash 08_graphviz.sh /sage /tmp/tarballs && \
+    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 # Install Heegaard
 
-COPY scripts/08_heegaard.sh .
-RUN /bin/bash 08_heegaard.sh
+COPY scripts/09_heegaard.sh .
+RUN /bin/bash 09_heegaard.sh
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
 
 # Install HIKMOT
 
-COPY scripts/09_hikmot.sh .
+COPY scripts/10_hikmot.sh .
 COPY scripts/hikmot.patch .
 RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
          http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
-RUN /bin/bash 09_hikmot.sh /sage /tmp/tarballs
+RUN /bin/bash 10_hikmot.sh /sage /tmp/tarballs
     
 USER sage
 WORKDIR /home/sage
