@@ -40,7 +40,7 @@ ENV SAGE_BANNER bare
 #
 ########################################################################
 
-ARG SAGE_VERSION=8.2
+ARG SAGE_VERSION=8.3
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 
@@ -68,7 +68,7 @@ USER sage
 WORKDIR /tmp/scripts
 
 COPY scripts/02_build_snap.sh .
-ARG OLD_PARI_URL=https://pari.math.u-bordeaux.fr/pub/pari/unix/OLD/2.3/pari-2.3.5.tar.gz
+ARG OLD_PARI_URL=https://pari.math.u-bordeaux.fr/pub/pari/OLD/2.3/pari-2.3.5.tar.gz
 ARG SNAP_URL=https://sourceforge.net/projects/snap-pari/files/latest/download?source=file
 
 RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
