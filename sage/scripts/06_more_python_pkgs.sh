@@ -8,6 +8,7 @@ sage -pip install --upgrade --no-binary :all: \
      --no-build-isolation \
      pandas matplotlib jupyterlab
 # This next mess is to make interactive plotting work with jupyterlab
+# Note: The next release of JupyterLab will need to be run in Python 3.
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sage -pip install -U subprocess32 ipympl
