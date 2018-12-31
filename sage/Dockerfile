@@ -40,7 +40,7 @@ ENV SAGE_BANNER bare
 #
 ########################################################################
 
-ARG SAGE_VERSION=8.4
+ARG SAGE_VERSION=8.5
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 
