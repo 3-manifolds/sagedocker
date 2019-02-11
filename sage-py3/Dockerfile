@@ -33,6 +33,8 @@ RUN  adduser --quiet --shell /bin/bash --gecos "Sage user,101,," \
      && chmod 0440 /etc/sudoers.d/01-sage
 ENV SHELL /bin/bash
 ENV SAGE_BANNER bare
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
 
 ########################################################################
 #
