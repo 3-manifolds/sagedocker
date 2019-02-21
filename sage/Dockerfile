@@ -89,7 +89,7 @@ RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
 # things, start with the Python interface to PHCpack.
 
 ARG QD_VERSION=2.3.17
-ARG PHC_VERSION=v2.4.52
+ARG PHC_VERSION=v2.4.64
 
 COPY scripts/03_phcpy.sh .
 COPY scripts/makefile_unix.patch . 
@@ -143,11 +143,6 @@ ARG SILLY=14
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 
-# Scraps, move eariler eventually
-RUN sudo apt-get update && \
-    sudo apt-get install -y screen && \
-    sudo apt-get remove -y graphviz && sudo apt-get autoremove -y
-
 # Install Graphviz and PyGraphviz
 COPY scripts/08_graphviz.sh .
 RUN wget -q -O /tmp/tarballs/graphviz.tar.gz   \ 
@@ -170,7 +165,9 @@ COPY scripts/hikmot.patch .
 RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
          http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
 RUN /bin/bash 10_hikmot.sh /sage /tmp/tarballs
-    
+
+# Scraps, move earlier eventually
+
 USER sage
 WORKDIR /home/sage
 CMD ["/bin/bash"]
