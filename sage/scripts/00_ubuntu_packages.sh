@@ -23,7 +23,7 @@ apt-get -q -y install wget automake bzip2 xz-utils make patch curl sudo libssl-d
 apt-get -q -y install cmake libxml2-dev libpopt-dev libjansson-dev
 
 # Scraps, including Tk for now. 
-apt-get -q -y install libmysqlclient-dev tk tk-dev nano graphviz net-tools man psmisc
+apt-get -q -y install libmysqlclient-dev tk tk-dev nano net-tools man psmisc screen
 
 # Remove some unused packages to save a little space. 
 apt-get -q -y remove python3 gcc-5
