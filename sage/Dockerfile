@@ -166,7 +166,10 @@ RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \
          http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
 RUN /bin/bash 10_hikmot.sh /sage /tmp/tarballs
 
-# Scraps, move earlier eventually
+# Scraps, move eariler eventually
+#RUN sudo apt-get update && \
+#    sudo apt-get install -y time && \
+#    sudo apt-get autoremove -y
 
 USER sage
 WORKDIR /home/sage
