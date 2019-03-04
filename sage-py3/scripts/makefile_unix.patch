@@ -1,5 +1,5 @@
---- makefile_unix.orig	2018-04-30 15:11:09.000000000 -0500
-+++ makefile_unix.new	2018-04-30 15:16:40.000000000 -0500
+--- makefile_unix.orig	2019-02-20 19:11:00.000000000 -0600
++++ makefile_unix.new	2019-02-20 19:13:43.000000000 -0600
 @@ -10,8 +10,8 @@
  
  # Location of Python for 2.7 and 3.6 development headers for phcpy
@@ -11,26 +11,24 @@
  
  # The location of the Sage Python lib:
  
-@@ -20,9 +20,11 @@
- # The location of the adalib folder for the GNATGPL compiler:
- 
- # for GNAT GPL 2016 :
--ADALIB=/usr/gnat-gpl-2016/lib/gcc/x86_64-pc-linux-gnu/4.9.4/adalib
-+# ADALIB=/usr/gnat-gpl-2016/lib/gcc/x86_64-pc-linux-gnu/4.9.4/adalib
+@@ -24,7 +24,9 @@
  # FOR GNAT GPL 2017 :
  # ADALIB=/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/6.3.1/adalib
+ # GNAT Community 2018 :
+-ADALIB=/home/microway/opt/GNAT/2018/lib/gcc/x86_64-pc-linux-gnu/7.3.1/adalib
++# ADALIB=/home/microway/opt/GNAT/2018/lib/gcc/x86_64-pc-linux-gnu/7.3.1/adalib
 +# For Ubuntu with gnat-7
 +ADALIB=/usr/lib/gcc/x86_64-linux-gnu/7/adalib
  
  # The location of the g++ compiler
  
-@@ -37,8 +39,8 @@
+@@ -41,8 +43,8 @@
  
  # Location of the QD library and its GPU version:
  
 -QD_ROOT=/usr/local/qd-2.3.17
 -QD_LIB=/usr/local/lib
-+QD_ROOT=/sage/local/qd-2.3.17
++QD_ROOT=
 +QD_LIB=/sage/local/lib
  GQD_HOME=/usr/local/gqd_1_2
  SDK_HOME=/usr/local/cuda/sdk
