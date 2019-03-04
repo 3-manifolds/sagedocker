@@ -88,8 +88,8 @@ RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
 # Build order is the reverse of how frequently I expect to change
 # things, start with the Python interface to PHCpack.
 
-ARG QD_VERSION=2.3.17
-ARG PHC_VERSION=v2.4.52
+ARG QD_VERSION=2.3.22
+ARG PHC_VERSION=v2.4.64
 
 COPY scripts/03_phcpy.sh .
 COPY scripts/makefile_unix.patch . 

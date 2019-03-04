@@ -28,7 +28,7 @@
  
 -QD_ROOT=/usr/local/qd-2.3.17
 -QD_LIB=/usr/local/lib
-+QD_ROOT=/sage/local/qd-2.3.17
++QD_ROOT=
 +QD_LIB=/sage/local/lib
  GQD_HOME=/usr/local/gqd_1_2
  SDK_HOME=/usr/local/cuda/sdk
