@@ -1,8 +1,11 @@
 # !!!NOTE!!! This script is intended to be run with root privileges
 # It will run as the 'sage' user when the time is right.
 
-mkdir /sage
-tar xfz /tmp/tarballs/sage.tar.gz --directory=/sage --strip-components=1
+if [ ! -d "/sage" ]; then
+    mkdir /sage
+    tar xfz /tmp/tarballs/sage.tar.gz --directory=/sage --strip-components=1
+fi
+
 chown -R sage:sage /sage
 N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 

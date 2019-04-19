@@ -38,18 +38,28 @@ ENV LC_ALL C.UTF-8
 
 ########################################################################
 #
-# Build SageMath itself
+# Build development version of SageMath itself
 #
 ########################################################################
 
-ARG SAGE_VERSION=8.6
-#ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
-ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
-
 COPY scripts/01_build_sage.sh .
-RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
-     /bin/bash 01_build_sage.sh && \
-     chown -R sage:sage /tmp/scripts /tmp/tarballs
+#ARG SAGE_VERSION=8.6
+#ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
+#ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
+#RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
+#     /bin/bash 01_build_sage.sh && \
+#     chown -R sage:sage /tmp/scripts /tmp/tarballs
+
+RUN git clone git://github.com/sagemath/sage.git /sage
+RUN cd /sage && \
+    git checkout develop && \
+    git remote add trac git://trac.sagemath.org/sage.git -t master && \
+    git remote set-url --push trac git@trac.sagemath.org:sage.git && \
+    git fetch trac u/jdemeyer/backport_python_trashcan_patch && \
+    git checkout -b trashcan FETCH_HEAD && \
+    cd /tmp/scripts && \
+    /bin/bash 01_build_sage.sh && \
+    chown -R sage:sage /tmp/scripts /tmp/tarballs
 
 # Config Sage's Jupyter notebook
 
