@@ -144,9 +144,9 @@ RUN sudo apt-get remove -y cmake && \
     wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
          http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
     wget -q -O /tmp/tarballs/regina.tar.gz \
-         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT
-RUN  /bin/bash 05_build_regina.sh /sage /tmp/tarballs
-#    rm -rf /tmp/tarballs/* /tmp/scripts/*
+         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
+    /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
+    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 
 # Now, add some basic packages like pandas and also update pip and
