@@ -130,21 +130,23 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # C++ software against it.
 #
 # SageMath 8.* comes with a small headers only version of Boost 1.58,
-# which we simply clobber.  Boost 1.61 is the newest version than can
-# be used with the system's CMake 3.5.
+# which we simply clobber.
 
-ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=d476b847f037
-
+ARG REGINAREPO=NathanDunfield
+ARG REGINA_COMMIT=302c2c433a2a29e
 COPY scripts/05_build_regina.sh .
-RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
-         http://sf.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz && \
+COPY scripts/CMakeLists.txt .
+RUN sudo apt-get remove -y cmake && \
+    wget -q -O /tmp/tarballs/cmake.tar.gz  \
+        https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4.tar.gz && \
+    wget -q -O /tmp/tarballs/boost.tar.gz   \ 
+         http://sf.net/projects/boost/files/boost/1.68.0/boost_1_68_0.tar.gz && \
     wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
          http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
     wget -q -O /tmp/tarballs/regina.tar.gz \
-         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
-    /bin/bash 05_build_regina.sh /sage /tmp/tarballs && \
-    rm -rf /tmp/tarballs/* /tmp/scripts/*
+         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT
+RUN  /bin/bash 05_build_regina.sh /sage /tmp/tarballs
+#    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 
 # Now, add some basic packages like pandas and also update pip and
@@ -159,11 +161,6 @@ RUN /bin/bash 06_more_python_pkgs.sh
 ARG SILLY=14
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
-
-# Scraps, move eariler eventually
-RUN sudo apt-get update && \
-    sudo apt-get install -y screen && \
-    sudo apt-get remove -y graphviz && sudo apt-get autoremove -y
 
 # Install Graphviz and PyGraphviz
 COPY scripts/08_graphviz.sh .
