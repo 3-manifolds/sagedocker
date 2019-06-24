@@ -132,10 +132,9 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # SageMath 8.* comes with a small headers only version of Boost 1.58,
 # which we simply clobber.
 
-ARG REGINAREPO=NathanDunfield
-ARG REGINA_COMMIT=302c2c433a2a29e
+ARG REGINAREPO=regina-normal
+ARG REGINA_COMMIT=597b6a4417057e
 COPY scripts/05_build_regina.sh .
-COPY scripts/CMakeLists.txt .
 RUN sudo apt-get remove -y cmake && \
     wget -q -O /tmp/tarballs/cmake.tar.gz  \
         https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4.tar.gz && \
@@ -147,7 +146,6 @@ RUN sudo apt-get remove -y cmake && \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
     /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
-
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
