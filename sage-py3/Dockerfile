@@ -43,7 +43,7 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SILLY_VARIABLE=0
+ARG SILLY_VARIABLE=1
 #ARG SAGE_VERSION=8.6
 #ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
@@ -156,7 +156,7 @@ RUN /bin/bash 06_more_python_pkgs.sh
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=14
+ARG SILLY=15
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 

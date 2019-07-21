@@ -20,7 +20,5 @@ In the container, first setup the account::
 Now fetch a ticket and build Sage following::
 
   http://doc.sagemath.org/html/en/developer/advanced_git.html#merge-in-the-latest-sagemath-version
-
-
   
   
