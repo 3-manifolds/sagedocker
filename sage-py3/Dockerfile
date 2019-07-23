@@ -43,7 +43,7 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SILLY_VARIABLE=1
+ARG SILLY_VARIABLE=2
 #ARG SAGE_VERSION=8.6
 #ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
@@ -58,12 +58,9 @@ RUN cd /sage && \
     git checkout develop && \
     git remote add trac git://trac.sagemath.org/sage.git -t master && \
     git remote set-url --push trac git@trac.sagemath.org:sage.git && \
-    git fetch trac u/jdemeyer/backport_python_trashcan_patch && \
-    git checkout -b trashcan FETCH_HEAD && \
-    git fetch trac u/dunfield/nf_warning && \
-    git checkout -b nf_warning FETCH_HEAD && \
-    git merge develop && \
-    git merge trashcan && \
+    #git fetch trac u/dunfield/nf_warning && \
+    #git checkout -b nf_warning FETCH_HEAD && \
+    #git merge develop && \
     cd /tmp/scripts && \
     /bin/bash 01_build_sage.sh && \
     chown -R sage:sage /tmp/scripts /tmp/tarballs
@@ -112,7 +109,7 @@ COPY scripts/03_phcpy.sh .
 COPY scripts/makefile_unix.patch . 
 
 RUN wget -nv -O /tmp/tarballs/qd.tar.gz \
-        http://crd.lbl.gov/~dhbailey/mpdist/qd-$QD_VERSION.tar.gz && \
+        https://www.davidhbailey.com/dhbsoftware/qd-$QD_VERSION.tar.gz && \
     wget -nv -O /tmp/tarballs/PHC.tar.gz \
     	https://github.com/janverschelde/PHCpack/archive/$PHC_VERSION.tar.gz && \
     /bin/bash 03_phcpy.sh /sage /tmp/tarballs  && \
@@ -180,8 +177,8 @@ RUN /bin/bash 09_heegaard.sh
 COPY scripts/10_hikmot.sh .
 COPY scripts/hikmot.patch .
 RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
-         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
-RUN /bin/bash 10_hikmot.sh /sage /tmp/tarballs
+         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz && \
+    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
     
 USER sage
 WORKDIR /home/sage

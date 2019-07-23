@@ -105,7 +105,7 @@ COPY scripts/03_phcpy.sh .
 COPY scripts/makefile_unix.patch . 
 
 RUN wget -nv -O /tmp/tarballs/qd.tar.gz \
-        http://crd.lbl.gov/~dhbailey/mpdist/qd-$QD_VERSION.tar.gz && \
+        https://www.davidhbailey.com/dhbsoftware/qd-$QD_VERSION.tar.gz && \
     wget -nv -O /tmp/tarballs/PHC.tar.gz \
     	https://github.com/janverschelde/PHCpack/archive/$PHC_VERSION.tar.gz && \
     /bin/bash 03_phcpy.sh /sage /tmp/tarballs  && \
@@ -127,7 +127,7 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # be used with the system's CMake 3.5.
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=d476b847f037
+ARG REGINA_COMMIT=53a30274cfd5b7cc65
 
 COPY scripts/05_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
@@ -173,8 +173,8 @@ RUN /bin/bash 09_heegaard.sh
 COPY scripts/10_hikmot.sh .
 COPY scripts/hikmot.patch .
 RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
-         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz
-RUN /bin/bash 10_hikmot.sh /sage /tmp/tarballs
+         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz && \
+    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
 
 # Scraps, move eariler eventually
 #RUN sudo apt-get update && \
