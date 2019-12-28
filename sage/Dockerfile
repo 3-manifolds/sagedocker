@@ -43,7 +43,7 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SAGE_VERSION=8.8
+ARG SAGE_VERSION=8.9
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
@@ -127,7 +127,7 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # be used with the system's CMake 3.5.
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=53a30274cfd5b7cc65
+ARG REGINA_COMMIT=01f5627d214afe5d6
 
 COPY scripts/05_build_regina.sh .
 RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
@@ -138,7 +138,6 @@ RUN wget -q -O /tmp/tarballs/boost.tar.gz   \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
     /bin/bash 05_build_regina.sh /sage /tmp/tarballs && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
-
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
