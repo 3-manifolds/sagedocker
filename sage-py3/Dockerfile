@@ -6,7 +6,7 @@
 #
 ########################################################################
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 LABEL maintainer="Nathan Dunfield <nathan@dunfield.info>"
 
 ########################################################################
@@ -43,7 +43,6 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SILLY_VARIABLE=2
 #ARG SAGE_VERSION=8.6
 #ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
@@ -130,12 +129,12 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 # which we simply clobber.
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=597b6a4417057e
+ARG REGINA_COMMIT=1502af1c37a8ba63f
 COPY scripts/05_build_regina.sh .
-RUN sudo apt-get remove -y cmake && \
-    wget -q -O /tmp/tarballs/cmake.tar.gz  \
-        https://github.com/Kitware/CMake/releases/download/v3.14.4/cmake-3.14.4.tar.gz && \
-    wget -q -O /tmp/tarballs/boost.tar.gz   \ 
+#RUN sudo apt-get remove -y cmake && \
+#    wget -q -O /tmp/tarballs/cmake.tar.gz  \
+#        https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz && \
+RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
          http://sf.net/projects/boost/files/boost/1.68.0/boost_1_68_0.tar.gz && \
     wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
          http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
@@ -153,7 +152,6 @@ RUN /bin/bash 06_more_python_pkgs.sh
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=15
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 
@@ -165,20 +163,24 @@ RUN wget -q -O /tmp/tarballs/graphviz.tar.gz   \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 # Install Heegaard
-
 COPY scripts/09_heegaard.sh .
 RUN /bin/bash 09_heegaard.sh
 
+# Install HIKMOT -- disabled as not Python 3 compatible.
+#
+# COPY scripts/10_hikmot.sh .
+# COPY scripts/hikmot.patch .
+# RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
+#         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz && \
+#    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
+
+# Scraps, move eariler eventually
+#RUN sudo apt-get update && \
+#    sudo apt-get install -y mercurial && \
+#    sudo apt-get autoremove -y
+
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
-
-# Install HIKMOT
-
-COPY scripts/10_hikmot.sh .
-COPY scripts/hikmot.patch .
-RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \ 
-         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz && \
-    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
     
 USER sage
 WORKDIR /home/sage
