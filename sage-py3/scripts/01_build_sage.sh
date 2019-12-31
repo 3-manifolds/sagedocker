@@ -11,8 +11,8 @@ N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 
 # The next line builds Sage so that it supports more processors,
 # specifically avoiding certain newer processor instructions.  As of
-# 2018/4/30, need to switch to "no" to build on Ubuntu 18.04.
-export SAGE_FAT_BINARY="yes"
+# 2019/12/27, need to switch to "no" to build on Ubuntu 18.04.
+export SAGE_FAT_BINARY="no"
 
 # Make sure Sage doesn't try to build its own GCC (even though it
 # shouldn't sense we've already installed a recent gcc and gfortran)

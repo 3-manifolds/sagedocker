@@ -46,9 +46,8 @@ build_boost ()
     cd boost_src
     rm -rf $SAGE_LOCAL/include/boost
     ./bootstrap.sh --prefix=$SAGE_LOCAL  \
-		   --with-python=python3 \
-		   --with-libraries=python,regex,iostreams
-    ./b2 --layout=tagged install threading=multi python=$PYTHON_VERSION -j$N_CORES
+		   --with-libraries=regex,iostreams
+    ./b2 --layout=tagged install threading=multi -j$N_CORES
     # I don't know why the following isn't handled automatically, but
     # it appears to be as of 2017/8.
     if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -85,7 +84,7 @@ build_regina ()
 }
 
 #build_jansson
-build_cmake
+#build_cmake
 build_boost
 build_tokyocabinet
 build_regina

@@ -3,7 +3,6 @@ sage -pip install --upgrade "pip>10" setuptools virtualenv wheel
 # The following two packages should be pulled in automatically by
 # pillow and sphinx, respectively, but aren't for whatever reason.
 sage -pip install olefile sphinxcontrib-websupport
-/sage/local/bin/python -m pip install mercurial
 sage -pip install mysqlclient sqlalchemy pycosat
 sage -pip install --upgrade --no-binary :all: \
      --no-build-isolation \
