@@ -33,7 +33,7 @@ ln -sf "/sage/sage" /usr/bin/sage
 
 # Install some optional Sage packages
 sudo -H -E -u sage ./sage -i giacpy_sage
-
+sudo -H -E -u sage ./sage -i pynormaliz
 
 # Clean up artifacts from the sage build that we don't need for runtime or
 # running the tests

@@ -43,26 +43,26 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-#ARG SAGE_VERSION=8.6
-#ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
+ARG SAGE_VERSION=9.1
+ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 #ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
-#RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
-#     /bin/bash 01_build_sage.sh && \
-#     chown -R sage:sage /tmp/scripts /tmp/tarballs
+RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
+     /bin/bash 01_build_sage.sh && \
+     chown -R sage:sage /tmp/scripts /tmp/tarballs
 
-RUN git clone git://github.com/sagemath/sage.git /sage
-RUN cd /sage && \
-    git config --global user.email "sage@none.com" && \
-    git config --global user.name "Sage Docker" && \
-    git checkout develop && \
-    git remote add trac git://trac.sagemath.org/sage.git -t master && \
-    git remote set-url --push trac git@trac.sagemath.org:sage.git && \
-    #git fetch trac u/dunfield/nf_warning && \
-    #git checkout -b nf_warning FETCH_HEAD && \
-    #git merge develop && \
-    cd /tmp/scripts && \
-    /bin/bash 01_build_sage.sh && \
-    chown -R sage:sage /tmp/scripts /tmp/tarballs
+# RUN git clone git://github.com/sagemath/sage.git /sage
+# RUN cd /sage && \
+#   git config --global user.email "sage@none.com" && \
+#    git config --global user.name "Sage Docker" && \
+#    git checkout develop && \
+#    git remote add trac git://trac.sagemath.org/sage.git -t master && \
+#    git remote set-url --push trac git@trac.sagemath.org:sage.git && \
+#   #git fetch trac u/dunfield/nf_warning && \
+#    #git checkout -b nf_warning FETCH_HEAD && \
+#    #git merge develop && \
+#    cd /tmp/scripts && \
+#    /bin/bash 01_build_sage.sh && \
+#    chown -R sage:sage /tmp/scripts /tmp/tarballs
 
 # Config Sage's Jupyter notebook
 

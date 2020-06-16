@@ -3,7 +3,7 @@ SageMath Docker Image
 
 This is an attempt to standardize and streamline computational work
 that combines SnapPy, SageMath, and friends via a custom `Docker
-<http://www.docker.com>`_ image that is based around Ubuntu 16.04 LTS
+<http://www.docker.com>`_ image that is based around Ubuntu 18.04 LTS
 and the latest and greatest `SageMath <http://sagemath.org>`_. It is
 indirectly derived from the official ``sagemath/sagemath`` Docker
 image, but includes `SnapPy <http://bitbucket.org/t3m/snappy>`_, and
@@ -12,11 +12,11 @@ and `PHCPack <http://homepages.math.uic.edu/~jan/>`_.
 
 A container instance of this image starts a shell as the user ``sage``
 with all the environment variables set as if you had executed ``sage
--sh``.  In particular, ``python`` is SageMath's Python.
+-sh``.
 
 This image takes a long time to build, even on a fast computer, since
-it compiles SageMath from source, and weighs in at just under 4GB (1GB
-compressed). We recommend you use the `posted image
+it compiles SageMath from source, and weighs in at 4.4 GB (1.4
+GB compressed). We recommend you use the `posted image
 <http://hub.docker.com/r/computop/sage/>`_ on DockerHub via::
 
   docker pull computop/sage
@@ -51,11 +51,22 @@ eventually superseded Jupyter, you can instead do::
 In JupyterLab, you have access not just to notebooks but also Python
 consoles and shell terminal windows.
 
+Python 2 versus Python 3
+========================
+
+The images for SageMath 8.9 and older use Python 2 (and Ubuntu 16.04)
+and those for SageMath 9.0 and newer use Python 3 (and Ubuntu 18.04).
+You can always request Docker run a particular version of the image,
+for example if you want SageMath 8.9 do::
+
+  docker run -it computop/sage:8.9
+
+
 Other uses
 ==========
 
 SageMath and all the extras are installed in ``/sage``.  You can make
-a tarball of that and copy it over to another Ubuntu 16.04 machine.
+a tarball of that and copy it over to another Ubuntu 18.04 machine.
 You will need to have certain system packages installed for this to
 work.  Those `listed here
 <https://bitbucket.org/t3m/sagedocker/src/tip/sage/scripts/00_ubuntu_packages.sh>`_
