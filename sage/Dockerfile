@@ -148,7 +148,7 @@ RUN /bin/bash 06_more_python_pkgs.sh
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=15
+ARG SILLY=16
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 
