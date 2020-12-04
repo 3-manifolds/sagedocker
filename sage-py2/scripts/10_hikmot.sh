@@ -19,7 +19,7 @@ build_hikmot ()
     unpack_source hikmot
     cd hikmot_src
     patch --input /tmp/scripts/hikmot.patch python_src/hikmot.py
-    sage -python -m pip install .
+    python -m pip install .
 }
 
 

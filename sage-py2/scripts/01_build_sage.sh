@@ -11,15 +11,14 @@ N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 
 # The next line builds Sage so that it supports more processors,
 # specifically avoiding certain newer processor instructions.  As of
-# 2019/12/27, need to switch to "no" to build on Ubuntu 18.04.
-export SAGE_FAT_BINARY="no"
+# 2018/4/30, need to switch to "no" to build on Ubuntu 18.04.
+export SAGE_FAT_BINARY="yes"
 
 # Make sure Sage doesn't try to build its own GCC (even though it
 # shouldn't sense we've already installed a recent gcc and gfortran)
 export SAGE_INSTALL_GCC="no"
 export MAKE="make -j${N_CORES}"
 export V=0  # Print less during build
-export PREREQ_OPTIONS="--with-python=3"
 
 # Sage can't be built as root, for reasons...
 # Here -E inherits the environment from root, however it's important to

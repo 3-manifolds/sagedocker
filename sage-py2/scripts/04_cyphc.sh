@@ -18,8 +18,8 @@ build_cyphc ()
     unpack_source cyphc
     cd cyphc_src
     bash getPHC.sh
-    python3 make.py
-    python3 -m pip install .
+    python2 make.py
+    python2 -m pip install .
 }
 
 build_cyphc

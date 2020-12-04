@@ -1,5 +1,7 @@
 # USAGE: /bin/bash build_regina.sh SAGE_ROOT_DIR TARBALL_DIR
 
+set -e  # exit when any command fails
+
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
 export DEBIAN_FRONTEND=noninteractive
@@ -12,7 +14,7 @@ echo "Cores: $N_CORES"
 install_old_gcc ()
 {
     sudo apt-get -y -qq update
-    sudo apt-get -y install gcc-4.6 g++-4.6 libreadline-dev
+    sudo apt-get -y install gcc-4.8 g++-4.8 libreadline-dev
 }
 
 unpack_source ()
@@ -26,27 +28,31 @@ unpack_source ()
 build_old_pari (){
     unpack_source pari_old
     cd pari_old_src
-    export CC=gcc-4.6
+    patch -p1 --input ../pari-2.3.5-no-dot-inc.patch
+    export CC=gcc-4.8
     ./Configure --prefix=$SNAP_PREFIX
     make -j$N_CORES gp
     make install
+    cd ..
 }
 
 build_snap () {
     unpack_source snap
     cd snap_src
-    export CC=gcc-4.6
-    export CXX=g++-4.6
+    patch -p1 --input ../snap-gcc-4.8.patch
+    export CC=gcc-4.8
+    export CXX=g++-4.8
     ./configure LDFLAGS="-L$SNAP_PREFIX/lib -Wl,-rpath,$SNAP_PREFIX/lib" \
 		--prefix=$SNAP_PREFIX --with-pari-dir=$SNAP_PREFIX
     make -j$N_CORES
     make install
+    cd ..
 }
 
 remove_old_gcc ()
 {
-    sudo apt-get -y remove gcc-4.6 g++-4.6 libreadline-dev
-    sudo apt -y autoremove
+    sudo apt-get -y remove gcc-4.8 g++-4.8 libreadline-dev
+    sudo apt-get -y autoremove
     sudo apt-get clean
     sudo rm -rf /var/lib/apt/lists/*
 }

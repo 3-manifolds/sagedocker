@@ -2,11 +2,15 @@
 
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
-. "$SAGE_ROOT/local/bin/sage-env" >&2 
-N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
+. "$SAGE_ROOT/local/bin/sage-env-config" >&2 
+. "$SAGE_ROOT/local/bin/sage-env" >&2
+N_CORES=$(python3 -c 'import multiprocessing as mp; print(mp.cpu_count())')
+PYTHON_VERSION=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')
+export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$SAGE_LOCAL/include/python${PYTHON_VERSION}m/"
 
 echo "Sage local: $SAGE_LOCAL"
 echo "Cores: $N_CORES"
+echo "Python: $PYTHON_VERSION"
 
 unpack_source ()
 {
@@ -16,6 +20,16 @@ unpack_source ()
     tar xfz $TARBALL_DIR/$1*.tar.gz --directory=$dir --strip-components=1
 }
 
+build_cmake ()
+{
+    unpack_source cmake
+    cd cmake_src
+    ./bootstrap --prefix=$SAGE_LOCAL
+    make -j$N_CORES
+    make install
+    cd ..
+}
+
 build_jansson ()
 {
     unpack_source jansson
@@ -23,7 +37,7 @@ build_jansson ()
     ./configure --prefix=$SAGE_LOCAL
     make -j$N_CORES
     make install
-    cd ..    
+    cd ..
 }
 
 build_boost ()
@@ -32,8 +46,8 @@ build_boost ()
     unpack_source boost
     cd boost_src
     rm -rf $SAGE_LOCAL/include/boost
-    ./bootstrap.sh --prefix=$SAGE_LOCAL \
-    --with-libraries=python,regex,iostreams
+    ./bootstrap.sh --prefix=$SAGE_LOCAL  \
+		   --with-libraries=regex,iostreams
     ./b2 --layout=tagged install threading=multi -j$N_CORES
     # I don't know why the following isn't handled automatically, but
     # it appears to be as of 2017/8.
@@ -45,7 +59,7 @@ build_boost ()
     cd ..
 }
 
-build_tokyocabinet () 
+build_tokyocabinet ()
 {
     unpack_source tokyocabinet
     cd tokyocabinet_src
@@ -64,14 +78,14 @@ build_regina ()
           -DCMAKE_INCLUDE_PATH=$SAGE_LOCAL/include \
           -DCMAKE_LIBRARY_PATH=$SAGE_LOCAL/lib \
           -DCMAKE_INSTALL_PREFIX=$SAGE_LOCAL \
-	  -DBoost_NO_BOOST_CMAKE=ON \
-	  -DBoost_LIBRARY_DIRS=$SAGE_LOCAL/lib \
+          -DPYTHON_EXECUTABLE=$SAGE_LOCAL/bin/python3 \
           -DDISABLE_GUI=1 -DREGINA_INSTALL_TYPE=XDG ..
     make -j$N_CORES install
     cd ../..
 }
 
 #build_jansson
+#build_cmake
 build_boost
 build_tokyocabinet
 build_regina

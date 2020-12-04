@@ -10,7 +10,7 @@ make heegaard
 cp ./heegaard $SAGE_LOCAL/bin
 # Build and install Python package
 cd ../python
-python setup.py pip_install
+sage -python setup.py pip_install
 # Cleanup
 cd ../../
 rm -rf heegaard

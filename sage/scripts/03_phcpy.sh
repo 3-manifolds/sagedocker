@@ -1,7 +1,10 @@
 # USAGE: /bin/bash this_script.sh SAGE_ROOT_DIR TARBALL_DIR
 
+set -e  # exit when any command fails
+
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
+. "$SAGE_ROOT/local/bin/sage-env-config" >&2 
 . "$SAGE_ROOT/local/bin/sage-env" >&2 
 N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 
@@ -28,14 +31,11 @@ build_qd ()
 build_phc ()
 {
     unpack_source PHC
-    cd PHC_src/src/Objects
-    patch --input /tmp/scripts/makefile_unix.patch makefile_unix
-    make -f makefile_unix phcpy2c2.so
+    cd PHC_src
+    patch -p1 --input ../PHC.patch
+    cd src/Objects
     make -f makefile_unix phcpy2c3.so
-    cd ../Python/PHCpy2
-    python2 -m pip install .
-    echo -e "n\nn\nn\n" | python2 examples/appolonius.py
-    cd ../PHCpy3/
+    cd ../Python/PHCpy3
     python3 -m pip install .
     echo -e "n\nn\nn\n" | python3 examples/appolonius.py 
     cd /tmp/scripts

@@ -9,12 +9,3 @@
  
      @classmethod
      def print_help(cls):
-@@ -183,7 +183,7 @@
- 
- 
- notebook_launcher = {
--    'default': SageNBExport,   # change this to change the default
-+    'default': NotebookJupyter,   # change this to change the default
-     'sagenb': NotebookSageNB,
-     'ipython': NotebookJupyter,
-     'jupyter': NotebookJupyter,
