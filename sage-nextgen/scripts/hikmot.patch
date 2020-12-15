@@ -1,0 +1,35 @@
+--- hikmot-original.py	2014-07-10 19:41:44.000000000 -0500
++++ hikmot.py	2018-05-14 21:41:10.000000000 -0500
+@@ -37,8 +37,10 @@
+                 chosen_equation.append(n)
+ 	
+ 	for sol in M.tetrahedra_shapes('rect'):
+-		app_sol.append(sol.real)
+-		app_sol.append(sol.imag)
++		if snappy._within_sage and hasattr(sol, '__complex__'):
++			sol = sol.__complex__()
++		app_sol.append(float(sol.real))
++		app_sol.append(float(sol.imag))
+ 	
+ 	for i in chosen_equation:
+ 		line = equations_rect[i]
+@@ -200,7 +202,8 @@
+ 	#
+ 	hikmot_data += "Check argument condition \n"
+ 	log_eq = M.gluing_equations('log')
+-	log2_eq = M.gluing_equations('rect')
++	if snappy._within_sage:
++		log_eq = snappy.SnapPy.SimpleMatrix([[int(entry) for entry in vector] for vector in list(log_eq)])
+ 	n = len(ans)
+ 	ans_arg = [ans[:],ans[:],ans[:]]
+ 	arg_verified = True
+@@ -416,7 +419,8 @@
+ 	#
+ 	hikmot_data += "Check argument condition \n"
+ 	log_eq = M.gluing_equations('log')
+-	log2_eq = M.gluing_equations('rect')
++	if snappy._within_sage:
++		log_eq = snappy.SnapPy.SimpleMatrix([[int(entry) for entry in vector] for vector in list(log_eq)])
+ 	n = len(ans)
+ 	ans_arg = [ans[:],ans[:],ans[:]]
+ 	arg_verified = True
