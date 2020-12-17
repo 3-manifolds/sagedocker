@@ -11,7 +11,7 @@ chown -R sage:sage /sage
 
 # Cap the number of cores at four as have had problems when it tries
 # to use large numbers of cores.
-N_CORES=$(python -c 'import multiprocessing as mp; print(max(mp.cpu_count(), 4))')
+N_CORES=$(python3 -c 'import multiprocessing as mp; print(max(mp.cpu_count(), 4))')
 
 # The next line builds Sage so that it supports more processors,
 # specifically avoiding certain newer processor instructions.  As of
