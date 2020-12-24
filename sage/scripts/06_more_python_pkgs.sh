@@ -1,9 +1,11 @@
 # Some standard Python packages
+set -e  # exit when any command fails
 sage -pip install --upgrade "pip>10" setuptools virtualenv wheel
 # The following two packages should be pulled in automatically by
 # pillow and sphinx, respectively, but aren't for whatever reason.
 sage -pip install olefile sphinxcontrib-websupport
 sage -pip install mysqlclient sqlalchemy pycosat
+sage -pip install pygraphviz
 
 # In Sage 9.1 the version of Cython is too old to build Pandas, so we
 # upgrade.

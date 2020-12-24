@@ -6,7 +6,7 @@
 #
 ########################################################################
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="Nathan Dunfield <nathan@dunfield.info>"
 
 ########################################################################
@@ -73,28 +73,20 @@ RUN cat jupyter_notebook_config.py >>   \
     patch /sage/local/bin/sage-notebook sage-notebook.patch  && \ 
     patch /sage/src/bin/sage-notebook sage-notebook.patch
 
-RUN laksdfjalsdjf
 
 ########################################################################
 #
-# Build one thing that is independent of Sage
+# Install "snap" from a binary tarball.
 #
 ########################################################################
 
 USER sage
 WORKDIR /tmp/scripts
 
-COPY scripts/02_build_snap.sh .
-COPY scripts/pari-2.3.5-no-dot-inc.patch .
-COPY scripts/snap-gcc-4.8.patch .
-ARG OLD_PARI_URL=https://pari.math.u-bordeaux.fr/pub/pari/OLD/2.3/pari-2.3.5.tar.gz
-ARG SNAP_URL=https://sourceforge.net/projects/snap-pari/files/latest/download?source=file
-
-RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
-     wget -q -O /tmp/tarballs/snap.tar.gz $SNAP_URL && \
-     /bin/bash 02_build_snap.sh /sage /tmp/tarballs && \
+COPY opt_snap.tar.bz2 /tmp/tarballs
+RUN  tar xf /tmp/tarballs/opt_snap.tar.bz2 --directory /sage  && \
      ln -s /sage/opt/snap/bin/snap /sage/local/bin/snap && \
-     rm -rf /tmp/scripts/* /tmp/tarballs/*
+     sudo rm -rf /tmp/scripts/* /tmp/tarballs/*
 
 ########################################################################
 #
@@ -106,7 +98,7 @@ RUN  wget -q -O /tmp/tarballs/pari_old.tar.gz $OLD_PARI_URL && \
 # things, start with the Python interface to PHCpack.
 
 ARG QD_VERSION=2.3.22
-ARG PHC_VERSION=v2.4.64
+ARG PHC_VERSION=v2.4.82
 
 COPY scripts/03_phcpy.sh .
 COPY scripts/PHC.patch .
@@ -128,21 +120,21 @@ RUN wget -nv -O /tmp/tarballs/cyphc.tar.gz \
 
 # Now build Regina, installing it in a way so we can build additional
 # C++ software against it.
-#
-# SageMath 8.* comes with a small headers only version of Boost 1.58,
-# which we simply clobber.
+
+RUN sudo apt-get -qq -y update
+RUN sudo apt-get -qq -y install python3-tk graphviz-dev libtokyocabinet-dev 
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=1502af1c37a8ba63f
+ARG REGINA_COMMIT=20c618bd01a2ab9
 COPY scripts/05_build_regina.sh .
 #RUN sudo apt-get remove -y cmake && \
 #    wget -q -O /tmp/tarballs/cmake.tar.gz  \
 #        https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz && \
-RUN wget -q -O /tmp/tarballs/boost.tar.gz   \ 
-         http://sf.net/projects/boost/files/boost/1.68.0/boost_1_68_0.tar.gz && \
-    wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
-         http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
-    wget -q -O /tmp/tarballs/regina.tar.gz \
+#    wget -q -O /tmp/tarballs/boost.tar.gz   \ 
+#         http://sf.net/projects/boost/files/boost/1.68.0/boost_1_68_0.tar.gz && \
+#    wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \ 
+#         http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
+RUN wget -q -O /tmp/tarballs/regina.tar.gz \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
     /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
@@ -160,16 +152,16 @@ ARG SILLY=1
 COPY scripts/07_snappy_and_friends.sh .
 RUN /bin/bash 07_snappy_and_friends.sh
 
-# Install Graphviz and PyGraphviz
-COPY scripts/08_graphviz.sh .
-RUN wget -q -O /tmp/tarballs/graphviz.tar.gz   \ 
-         https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz && \
-    /bin/bash 08_graphviz.sh /sage /tmp/tarballs && \
-    rm -rf /tmp/tarballs/* /tmp/scripts/*
+# Install Graphviz and PyGraphviz --- no longer needed with Ubuntu 20.04
+# COPY scripts/08_graphviz.sh .
+# RUN wget -q -O /tmp/tarballs/graphviz.tar.gz   \ 
+#         https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz && \
+#    /bin/bash 08_graphviz.sh /sage /tmp/tarballs && \
+#    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 # Install Heegaard
 COPY scripts/09_heegaard.sh .
-RUN /bin/bash 09_heegaard.sh
+RUN /bin/bash 09_heegaard.sh /sage
 
 # Install HIKMOT -- disabled as not Python 3 compatible.
 #

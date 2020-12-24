@@ -1,12 +1,12 @@
 # USAGE: /bin/bash build_regina.sh SAGE_ROOT_DIR TARBALL_DIR
 
-set -e  # exit when any command fails
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
 . "$SAGE_ROOT/local/bin/sage-env-config" >&2 
 . "$SAGE_ROOT/local/bin/sage-env" >&2
 N_CORES=$(python3 -c 'import multiprocessing as mp; print(mp.cpu_count())')
 PYTHON_VERSION=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')
+export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$SAGE_LOCAL/include/python${PYTHON_VERSION}m/"
 
 echo "Sage local: $SAGE_LOCAL"
 echo "Cores: $N_CORES"
@@ -20,7 +20,6 @@ unpack_source ()
     tar xfz $TARBALL_DIR/$1*.tar.gz --directory=$dir --strip-components=1
 }
 
-# unused, replaced with system package
 build_cmake ()
 {
     unpack_source cmake
@@ -31,7 +30,6 @@ build_cmake ()
     cd ..
 }
 
-# unused, replaced with system package
 build_jansson ()
 {
     unpack_source jansson
@@ -42,8 +40,7 @@ build_jansson ()
     cd ..
 }
 
-# unused, replaced with system package
-build_boost ()  # currently unused
+build_boost ()
 {
     # WARNING: this clobbers Sage's own "boost_cropped" includes!
     unpack_source boost
@@ -62,7 +59,6 @@ build_boost ()  # currently unused
     cd ..
 }
 
-# unused, replaced with system package
 build_tokyocabinet ()
 {
     unpack_source tokyocabinet
@@ -90,6 +86,6 @@ build_regina ()
 
 #build_jansson
 #build_cmake
-#build_boost
-#build_tokyocabinet
+build_boost
+build_tokyocabinet
 build_regina

@@ -5,7 +5,7 @@ set -e  # exit when any command fails
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
 export DEBIAN_FRONTEND=noninteractive
-N_CORES=$(python3 -c 'import multiprocessing as mp; print(mp.cpu_count())')
+N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 export SNAP_PREFIX=$SAGE_ROOT/opt/snap
 
 echo "Sage root: $SAGE_ROOT"

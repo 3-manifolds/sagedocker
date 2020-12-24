@@ -6,18 +6,18 @@
  
 -PYTHON=/usr/include/python2.7
 -PYTHON3=/usr/local/include/python3.6m
-+PYTHON3=/sage/local/include/python3.8
++PYTHON3=/usr/include/python3.8
  
  # The location of the Sage Python lib:
  
 @@ -24,7 +24,9 @@
- # FOR GNAT GPL 2017 :
- # ADALIB=/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/6.3.1/adalib
- # GNAT Community 2018 :
--ADALIB=/home/microway/opt/GNAT/2018/lib/gcc/x86_64-pc-linux-gnu/7.3.1/adalib
+ # GNAT Community 2019 :
+ # ADALIB=/home/jan/opt/GNAT/2019/lib/gcc/x86_64-pc-linux-gnu/8.3.1/adalib
+ # GNAT Community 2020 :
+-ADALIB=/home/microway/opt/GNAT/2020/lib/gcc/x86_64-pc-linux-gnu/9.3.1/adalib
 +# ADALIB=/home/microway/opt/GNAT/2018/lib/gcc/x86_64-pc-linux-gnu/7.3.1/adalib
-+# For Ubuntu with gnat-7
-+ADALIB=/usr/lib/gcc/x86_64-linux-gnu/7/adalib
++# For Ubuntu with gnat-9
++ADALIB=/usr/lib/gcc/x86_64-linux-gnu/9/adalib
  
  # The location of the g++ compiler
  

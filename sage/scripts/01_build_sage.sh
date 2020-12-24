@@ -6,8 +6,12 @@ if [ ! -d "/sage" ]; then
     tar xfz /tmp/tarballs/sage.tar.gz --directory=/sage --strip-components=1
 fi
 
+set -e  # exit when any command fails
 chown -R sage:sage /sage
-N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
+
+# Cap the number of cores at four as have had problems when it tries
+# to use large numbers of cores.
+N_CORES=$(python3 -c 'import multiprocessing as mp; print(max(mp.cpu_count(), 4))')
 
 # The next line builds Sage so that it supports more processors,
 # specifically avoiding certain newer processor instructions.  As of
@@ -19,7 +23,6 @@ export SAGE_FAT_BINARY="no"
 export SAGE_INSTALL_GCC="no"
 export MAKE="make -j${N_CORES}"
 export V=0  # Print less during build
-export PREREQ_OPTIONS="--with-python=3"
 
 # Sage can't be built as root, for reasons...
 # Here -E inherits the environment from root, however it's important to
@@ -42,8 +45,8 @@ sudo -H -E -u sage ./sage -i pynormaliz
 # For the 'develop' image we leave everything as it would be after a
 # successful sage build
 if [ "$BRANCH" != "develop" ]; then
-  #make micro_release
-  #rm -rf .git
+  make micro_release
+  rm -rf .git
   rm -rf /tmp/tarballs/sage.tar.gz
 fi
 

@@ -1,5 +1,7 @@
 # USAGE: /bin/bash build.sh SAGE_ROOT_DIR TARBALL_DIR
 
+set -e  # exit when any command fails
+
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
 
@@ -21,6 +23,7 @@ build_cyphc ()
     bash getPHC.sh
     python3 make.py
     python3 -m pip install .
+    python3 test.py
 }
 
 build_cyphc

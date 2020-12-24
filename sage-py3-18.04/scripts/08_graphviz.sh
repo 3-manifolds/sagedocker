@@ -3,10 +3,8 @@
 # Installs Graphviz and PyGraphviz.  We don't use the Ubuntu package
 # for Graphviz because it is not compiled with the GTS triangulation
 # library, making the "sfdp" layout engine much less useful.
-#
-# No longer needed for Ubuntu 20.04.
 
-set -e  # exit when any command fails
+
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
 . "$SAGE_ROOT/local/bin/sage-env-config" >&2 
