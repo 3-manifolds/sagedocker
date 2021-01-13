@@ -82,7 +82,7 @@ build_regina ()
           -DCMAKE_INCLUDE_PATH=$SAGE_LOCAL/include \
           -DCMAKE_LIBRARY_PATH=$SAGE_LOCAL/lib \
           -DCMAKE_INSTALL_PREFIX=$SAGE_LOCAL \
-          -DPYTHON_EXECUTABLE=$SAGE_LOCAL/bin/python3 \
+          -DPython_EXECUTABLE=$SAGE_LOCAL/bin/python3 \
           -DDISABLE_GUI=1 -DREGINA_INSTALL_TYPE=XDG ..
     make -j$N_CORES install
     cd ../..

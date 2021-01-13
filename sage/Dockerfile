@@ -125,7 +125,8 @@ RUN sudo apt-get -qq -y update
 RUN sudo apt-get -qq -y install python3-tk graphviz-dev libtokyocabinet-dev 
 
 ARG REGINAREPO=regina-normal
-ARG REGINA_COMMIT=20c618bd01a2ab9
+# Regina 6.0
+ARG REGINA_COMMIT=12630e4c6a4e05
 COPY scripts/05_build_regina.sh .
 #RUN sudo apt-get remove -y cmake && \
 #    wget -q -O /tmp/tarballs/cmake.tar.gz  \
