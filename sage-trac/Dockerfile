@@ -7,7 +7,7 @@
 #
 ########################################################################
 
-FROM sagemath/sagemath-dev:8.8.rc2 
+FROM sagemath/sagemath-dev:develop
 LABEL maintainer="Nathan Dunfield <nathan@dunfield.info>"
 
 WORKDIR /home/sage/sage
