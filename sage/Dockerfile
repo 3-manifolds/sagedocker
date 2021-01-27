@@ -173,9 +173,9 @@ RUN /bin/bash 09_heegaard.sh /sage
 #    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
 
 # Scraps, move eariler eventually
-#RUN sudo apt-get update && \
-#    sudo apt-get install -y mercurial && \
-#    sudo apt-get autoremove -y
+RUN sudo apt-get update && \
+    sudo apt-get install -y redis-tools cloc && \
+    sudo apt-get autoremove -y
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.

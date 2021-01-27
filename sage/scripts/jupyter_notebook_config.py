@@ -1,14 +1,14 @@
 ## The IP address the notebook server will listen on.
-c.NotebookApp.ip = '0.0.0.0'
+c.ServerApp.ip = '0.0.0.0'
 
 ## Set the log level by value or name.
 c.Application.log_level = 'CRITICAL'
 
 ## Whether to open in a browser after starting. The specific browser used is
 #  platform dependent and determined by the python standard library `webbrowser`
-#  module, unless it is overridden using the --browser (NotebookApp.browser)
+#  module, unless it is overridden using the --browser (ServerApp.browser)
 #  configuration option.
-c.NotebookApp.open_browser = False
+c.ServerApp.open_browser = False
 
 ## Token used for authenticating first-time connections to the server.
 #  
@@ -16,7 +16,7 @@ c.NotebookApp.open_browser = False
 #  
 #  Setting to an empty string disables authentication altogether, which is NOT
 #  RECOMMENDED.
-c.NotebookApp.token = ''
+c.ServerApp.token = ''
 
 ## Disable cross-site-request-forgery protection
 #  
@@ -30,4 +30,4 @@ c.NotebookApp.token = ''
 #  completely without authentication. These services can disable all
 #  authentication and security checks, with the full knowledge of what that
 #  implies.
-c.NotebookApp.disable_check_xsrf = True
+c.ServerApp.disable_check_xsrf = True
