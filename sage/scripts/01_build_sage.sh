@@ -29,6 +29,9 @@ export V=0  # Print less during build
 # include -H to set HOME=/home/sage, otherwise DOT_SAGE will not be set
 # correctly and the build will fail!
 cd /sage
+if [ ! -f "./configure" ]; then
+    sudo -H -E -u sage make configure
+fi
 sudo -H -E -u sage ./configure
 sudo -H -E -u sage make build || exit 1
 
