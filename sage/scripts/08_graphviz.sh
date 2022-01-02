@@ -9,8 +9,7 @@
 set -e  # exit when any command fails
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
-. "$SAGE_ROOT/local/bin/sage-env-config" >&2 
-. "$SAGE_ROOT/local/bin/sage-env" >&2 
+. /sage/activate
 echo "Sage local: $SAGE_LOCAL"
 
 

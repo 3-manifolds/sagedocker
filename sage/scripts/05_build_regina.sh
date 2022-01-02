@@ -1,14 +1,15 @@
 # USAGE: /bin/bash build_regina.sh SAGE_ROOT_DIR TARBALL_DIR
 
 set -e  # exit when any command fails
+
 export SAGE_ROOT=$1
 export TARBALL_DIR=$2
-. "$SAGE_ROOT/local/bin/sage-env-config" >&2 
-. "$SAGE_ROOT/local/bin/sage-env" >&2
-N_CORES=$(python3 -c 'import multiprocessing as mp; print(mp.cpu_count())')
-PYTHON_VERSION=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')
+. /sage/activate
+N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
+PYTHON_VERSION=$(python -c 'import sys; print("%d.%d" % sys.version_info[:2])')
 
 echo "Sage local: $SAGE_LOCAL"
+echo "Sage venv: $SAGE_VENV"
 echo "Cores: $N_CORES"
 echo "Python: $PYTHON_VERSION"
 
@@ -82,7 +83,7 @@ build_regina ()
           -DCMAKE_INCLUDE_PATH=$SAGE_LOCAL/include \
           -DCMAKE_LIBRARY_PATH=$SAGE_LOCAL/lib \
           -DCMAKE_INSTALL_PREFIX=$SAGE_LOCAL \
-          -DPython_EXECUTABLE=$SAGE_LOCAL/bin/python3 \
+          -DPython_EXECUTABLE=$SAGE_VENV/bin/python3 \
           -DDISABLE_GUI=1 -DREGINA_INSTALL_TYPE=XDG ..
     make -j$N_CORES install
     cd ../..

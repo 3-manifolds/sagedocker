@@ -57,9 +57,12 @@ fi
 echo exit | sudo -H -E -u sage /sage/sage
 
 # Make SAGE_LOCAL everyones default environment
-echo "export SAGE_ROOT=/sage" >> ~root/.bashrc
-echo ". /sage/local/bin/sage-env-config" >> ~root/.bashrc
-echo ". /sage/local/bin/sage-env" >> ~root/.bashrc
-echo "export SAGE_ROOT=/sage" >> ~sage/.bashrc
-echo ". /sage/local/bin/sage-env-config" >> ~sage/.bashrc
-echo ". /sage/local/bin/sage-env" >> ~sage/.bashrc
+
+SAGE_VENV=$(/usr/bin/sage -python -c 'import os; print(os.environ["SAGE_VENV"])')
+echo "export SAGE_ROOT=/sage" >> /sage/activate
+echo "export SAGE_VENV=$SAGE_VENV" >> /sage/activate
+echo ". \$SAGE_VENV/bin/sage-env-config" >> /sage/activate
+echo ". \$SAGE_VENV/bin/sage-env" >> /sage/activate
+echo ". /sage/activate" >> ~root/.bashrc
+echo ". /sage/activate" >> ~sage/.bashrc
+

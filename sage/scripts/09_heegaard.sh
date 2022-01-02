@@ -3,8 +3,7 @@
 # First, setup Sage environment.
 set -e  # exit when any command fails
 export SAGE_ROOT=$1
-. "$SAGE_ROOT/local/bin/sage-env-config" >&2 
-. "$SAGE_ROOT/local/bin/sage-env" >&2 
+. /sage/activate
 # Build and install "heegaard" executable in $SAGE_LOCAL/bin.
 git clone https://github.com/3-manifolds/heegaard
 cd heegaard/src
@@ -12,7 +11,7 @@ make heegaard
 cp ./heegaard $SAGE_LOCAL/bin
 # Build and install Python package
 cd ../python
-sage -python setup.py pip_install
+sage -pip install .
 sage -python -c "import heegaard; heegaard.is_realizable(['aBAbaabAB', 'aBAbABabbbbbb'])"
 # Cleanup
 cd ../../

@@ -1,4 +1,4 @@
-# USAGE: /bin/bash build_regina.sh SAGE_ROOT_DIR TARBALL_DIR
+# USAGE: /bin/bash build_snap.sh SAGE_ROOT_DIR TARBALL_DIR
 
 set -e  # exit when any command fails
 

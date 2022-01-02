@@ -1,5 +1,5 @@
 ## The IP address the notebook server will listen on.
-c.ServerApp.ip = '0.0.0.0'
+c.NotebookApp.ip = '0.0.0.0'
 
 ## Set the log level by value or name.
 c.Application.log_level = 'CRITICAL'
@@ -8,7 +8,7 @@ c.Application.log_level = 'CRITICAL'
 #  platform dependent and determined by the python standard library `webbrowser`
 #  module, unless it is overridden using the --browser (ServerApp.browser)
 #  configuration option.
-c.ServerApp.open_browser = False
+c.NotebookApp.open_browser = False
 
 ## Token used for authenticating first-time connections to the server.
 #  
@@ -16,7 +16,7 @@ c.ServerApp.open_browser = False
 #  
 #  Setting to an empty string disables authentication altogether, which is NOT
 #  RECOMMENDED.
-c.ServerApp.token = ''
+c.NotebookApp.token = ''
 
 ## Disable cross-site-request-forgery protection
 #  
@@ -30,4 +30,9 @@ c.ServerApp.token = ''
 #  completely without authentication. These services can disable all
 #  authentication and security checks, with the full knowledge of what that
 #  implies.
-c.ServerApp.disable_check_xsrf = True
+c.NotebookApp.disable_check_xsrf = True
+
+
+## The kernel manager class to use.
+#  cf https://github.com/jupyter/notebook/issues/6164
+c.NotebookApp.kernel_manager_class = 'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'
