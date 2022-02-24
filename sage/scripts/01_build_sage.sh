@@ -49,6 +49,7 @@ sudo -H -E -u sage ./sage -i pynormaliz
 # successful sage build
 if [ "$BRANCH" != "develop" ]; then
   make micro_release
+  find local/var/lib/sage/venv-python* -type f -exec strip '{}' ';' 2>&1
   rm -rf .git
   rm -rf /tmp/tarballs/sage.tar.gz
 fi

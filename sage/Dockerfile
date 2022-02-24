@@ -43,26 +43,26 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-# ARG SAGE_VERSION=9.3
-# ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
+ARG SAGE_VERSION=9.5
+ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 # ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
-# RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
-#      /bin/bash 01_build_sage.sh && \
-#      chown -R sage:sage /tmp/scripts /tmp/tarballs
+RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
+     /bin/bash 01_build_sage.sh && \
+     chown -R sage:sage /tmp/scripts /tmp/tarballs
 
-RUN git clone git://github.com/sagemath/sage.git /sage
-RUN cd /sage && \
-    git config --global user.email "sage@none.com" && \
-    git config --global user.name "Sage Docker" && \
-    git checkout develop && \
-    git remote add trac git://trac.sagemath.org/sage.git -t master && \
-    git remote set-url --push trac git@trac.sagemath.org:sage.git && \
-    #git fetch trac u/dunfield/nf_warning && \
-    #git checkout -b nf_warning FETCH_HEAD && \
-    #git merge develop && \
-    cd /tmp/scripts && \
-    /bin/bash 01_build_sage.sh && \
-    chown -R sage:sage /tmp/scripts /tmp/tarballs
+# RUN git clone git://github.com/sagemath/sage.git /sage
+# RUN cd /sage && \
+#     git config --global user.email "sage@none.com" && \
+#     git config --global user.name "Sage Docker" && \
+#     git checkout develop && \
+#     git remote add trac git://trac.sagemath.org/sage.git -t master && \
+#     git remote set-url --push trac git@trac.sagemath.org:sage.git && \
+#     #git fetch trac u/dunfield/nf_warning && \
+#     #git checkout -b nf_warning FETCH_HEAD && \
+#     #git merge develop && \
+#     cd /tmp/scripts && \
+#     /bin/bash 01_build_sage.sh && \
+#     chown -R sage:sage /tmp/scripts /tmp/tarballs
 
 
 ########################################################################
@@ -116,8 +116,8 @@ RUN sudo apt-get -qq -y update
 RUN sudo apt-get -qq -y install python3-tk graphviz-dev libtokyocabinet-dev
 
 ARG REGINAREPO=regina-normal
-# Regina 6.0
-ARG REGINA_COMMIT=12630e4c6a4e05
+# Regina 7.0
+ARG REGINA_COMMIT=95b1a26efca7f8
 COPY scripts/05_build_regina.sh .
 #RUN sudo apt-get remove -y cmake && \
 #    wget -q -O /tmp/tarballs/cmake.tar.gz  \
@@ -177,6 +177,18 @@ COPY scripts/jupyter_notebook_config.py .
 COPY scripts/jupyter_lab_config.py .
 COPY scripts/sage-notebook.patch .
 RUN /bin/bash 11_config_jupyter.sh
+
+
+# TEMP
+
+ARG REGINAREPO=regina-normal
+# Regina 7.0
+ARG REGINA_COMMIT=95b1a26efca7f8
+COPY scripts/05_build_regina.sh .
+RUN wget -q -O /tmp/tarballs/regina.tar.gz \
+         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
+    /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
+    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
