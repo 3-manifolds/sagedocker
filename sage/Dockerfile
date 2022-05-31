@@ -43,7 +43,7 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SAGE_VERSION=9.5
+ARG SAGE_VERSION=9.6
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 # ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
@@ -116,20 +116,19 @@ RUN sudo apt-get -qq -y update
 RUN sudo apt-get -qq -y install python3-tk graphviz-dev libtokyocabinet-dev
 
 ARG REGINAREPO=regina-normal
-# Regina 7.0
-ARG REGINA_COMMIT=95b1a26efca7f8
+# Regina 7.0.  Uses hack to get around
+# https://github.com/regina-normal/regina/issues/73
+
+#ARG REGINA_COMMIT=95b1a26efca7f8edde84bb3a9885
+ARG REGINA_COMMIT=642df10ffb7dea29751feb02318c7
 COPY scripts/05_build_regina.sh .
-#RUN sudo apt-get remove -y cmake && \
-#    wget -q -O /tmp/tarballs/cmake.tar.gz  \
-#        https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz && \
-#    wget -q -O /tmp/tarballs/boost.tar.gz   \
-#         http://sf.net/projects/boost/files/boost/1.68.0/boost_1_68_0.tar.gz && \
-#    wget -q -O /tmp/tarballs/tokyocabinet.tar.gz   \
-#         http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz && \
+#RUN mv /sage/local/include/libnormaliz /sage/local/include/libnormaliz_tmp
 RUN wget -q -O /tmp/tarballs/regina.tar.gz \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
     /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
+#RUN mv /sage/local/include/libnormaliz_tmp /sage/local/include/libnormaliz
+
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
@@ -169,7 +168,6 @@ RUN sudo apt-get update && \
     sudo apt-get autoremove -y
 
 
-
 # Config Sage's Jupyter notebook
 
 COPY scripts/11_config_jupyter.sh .
@@ -178,17 +176,6 @@ COPY scripts/jupyter_lab_config.py .
 COPY scripts/sage-notebook.patch .
 RUN /bin/bash 11_config_jupyter.sh
 
-
-# TEMP
-
-ARG REGINAREPO=regina-normal
-# Regina 7.0
-ARG REGINA_COMMIT=95b1a26efca7f8
-COPY scripts/05_build_regina.sh .
-RUN wget -q -O /tmp/tarballs/regina.tar.gz \
-         https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
-    /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
-    rm -rf /tmp/tarballs/* /tmp/scripts/*
 
 # Setup for when you start the container.  Can always sudo to root
 # without password if need be.
