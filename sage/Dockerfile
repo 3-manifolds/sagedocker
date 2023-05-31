@@ -43,12 +43,15 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SAGE_VERSION=9.6
+ARG SAGE_VERSION=10.0
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 # ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
 RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
      /bin/bash 01_build_sage.sh && \
      chown -R sage:sage /tmp/scripts /tmp/tarballs
+
+# COPY scripts/01e_build_sage.sh .
+# RUN /bin/bash 01e_build_sage.sh
 
 # RUN git clone git://github.com/sagemath/sage.git /sage
 # RUN cd /sage && \
@@ -115,20 +118,17 @@ RUN /bin/bash 04_cyphc.sh /sage /tmp/tarballs  && \
 RUN sudo apt-get -qq -y update
 RUN sudo apt-get -qq -y install python3-tk graphviz-dev libtokyocabinet-dev
 
-ARG REGINAREPO=regina-normal
-# Regina 7.0.  Uses hack to get around
-# https://github.com/regina-normal/regina/issues/73
+ARG REGINAREPO=nathandunfield
 
-#ARG REGINA_COMMIT=95b1a26efca7f8edde84bb3a9885
-ARG REGINA_COMMIT=642df10ffb7dea29751feb02318c7
+# Regina 7.3 with hacked support for closed surfaces in multicusped
+#  manifolds
+ARG REGINA_COMMIT=9a51da38dc5bd9179809d12865fdd447978cbb7c
 COPY scripts/05_build_regina.sh .
 #RUN mv /sage/local/include/libnormaliz /sage/local/include/libnormaliz_tmp
 RUN wget -q -O /tmp/tarballs/regina.tar.gz \
          https://github.com/$REGINAREPO/regina/tarball/$REGINA_COMMIT && \
     /bin/bash 05_build_regina.sh /sage /tmp/tarballs  && \
     rm -rf /tmp/tarballs/* /tmp/scripts/*
-#RUN mv /sage/local/include/libnormaliz_tmp /sage/local/include/libnormaliz
-
 
 # Now, add some basic packages like pandas and also update pip and
 # matplotlib to the latest and greatest.
@@ -154,18 +154,10 @@ RUN /bin/bash 07_snappy_and_friends.sh
 COPY scripts/09_heegaard.sh .
 RUN /bin/bash 09_heegaard.sh /sage
 
-# Install HIKMOT -- disabled as not Python 3 compatible.
-#
-# COPY scripts/10_hikmot.sh .
-# COPY scripts/hikmot.patch .
-# RUN wget -q -O /tmp/tarballs/hikmot.tar.gz   \
-#         http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/Codes/hikmot_v1.0.1.tar.gz && \
-#    /bin/bash 10_hikmot.sh /sage /tmp/tarballs
-
 # Scraps, move eariler eventually
-RUN sudo apt-get update && \
-    sudo apt-get install -y redis-tools cloc && \
-    sudo apt-get autoremove -y
+# RUN sudo apt-get update && \
+#    sudo apt-get install -y some-package && \
+#    sudo apt-get autoremove -y
 
 
 # Config Sage's Jupyter notebook

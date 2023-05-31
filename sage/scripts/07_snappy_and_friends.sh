@@ -1,6 +1,7 @@
 set -e  # exit when any command fails
-sage -pip --no-cache-dir install FXrays
+sage -pip --no-cache-dir install FXrays cypari sphinx_rtd_theme
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/plink.git
+sage -pip --no-cache-dir install git+https://github.com/3-manifolds/low_index.git
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy_manifolds.git
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy_15_knots.git
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/spherogram.git

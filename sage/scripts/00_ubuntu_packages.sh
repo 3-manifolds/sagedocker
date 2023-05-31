@@ -31,7 +31,7 @@ apt-get -q -y install cmake libxml2-dev libpopt-dev libjansson-dev libtokyocabin
 
 # Scraps, including Tk for now. 
 apt-get -q -y install libmysqlclient-dev graphviz-dev python3-tk tk-dev nano
-apt-get -q -y install net-tools man psmisc screen time mercurial
+apt-get -q -y install net-tools man psmisc screen time mercurial redis-tools cloc 
 
 # Remove some unused packages to save a little space. 
 apt-get -y autoremove
