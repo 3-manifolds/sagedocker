@@ -6,7 +6,7 @@
 #
 ########################################################################
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 LABEL maintainer="Nathan Dunfield <nathan@dunfield.info>"
 
 ########################################################################
@@ -16,7 +16,6 @@ LABEL maintainer="Nathan Dunfield <nathan@dunfield.info>"
 ########################################################################
 
 # Install the Ubuntu packages that will be needed to build all the software.
-# See the file for details, but know that we will be using gcc 7.
 
 RUN mkdir /tmp/scripts /tmp/tarballs
 WORKDIR /tmp/scripts
@@ -43,9 +42,10 @@ ENV LC_ALL C.UTF-8
 ########################################################################
 
 COPY scripts/01_build_sage.sh .
-ARG SAGE_VERSION=10.0
+ARG SAGE_VERSION=10.5
 ARG SAGE_URL=http://mirrors.mit.edu/sage/src/sage-$SAGE_VERSION.tar.gz
 # ARG SAGE_URL=https://github.com/sagemath/sage/tarball/develop
+
 RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
      /bin/bash 01_build_sage.sh && \
      chown -R sage:sage /tmp/scripts /tmp/tarballs
@@ -67,6 +67,9 @@ RUN  wget -q -O /tmp/tarballs/sage.tar.gz $SAGE_URL && \
 #     /bin/bash 01_build_sage.sh && \
 #     chown -R sage:sage /tmp/scripts /tmp/tarballs
 
+# ARG SILLY=1
+COPY scripts/07_snappy_and_friends.sh .
+RUN /bin/bash 07_snappy_and_friends.sh
 
 ########################################################################
 #
@@ -92,7 +95,7 @@ RUN  tar xf /tmp/tarballs/opt_snap.tar.bz2 --directory /sage  && \
 # things, start with the Python interface to PHCpack.
 
 ARG QD_VERSION=2.3.22
-ARG PHC_VERSION=v2.4.82
+ARG PHC_VERSION=v2.4.88
 
 COPY scripts/03_phcpy.sh .
 COPY scripts/PHC.patch .
@@ -122,7 +125,7 @@ ARG REGINAREPO=nathandunfield
 
 # Regina 7.3 with hacked support for closed surfaces in multicusped
 #  manifolds
-ARG REGINA_COMMIT=9a51da38dc5bd9179809d12865fdd447978cbb7c
+ARG REGINA_COMMIT=1554fecbe07f2251d4595c7dd8542d43cf7331be
 COPY scripts/05_build_regina.sh .
 #RUN mv /sage/local/include/libnormaliz /sage/local/include/libnormaliz_tmp
 RUN wget -q -O /tmp/tarballs/regina.tar.gz \
@@ -139,9 +142,9 @@ RUN /bin/bash 06_more_python_pkgs.sh
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=1
-COPY scripts/07_snappy_and_friends.sh .
-RUN /bin/bash 07_snappy_and_friends.sh
+# ARG SILLY=1
+# COPY scripts/07_snappy_and_friends.sh .
+# RUN /bin/bash 07_snappy_and_friends.sh
 
 # Install Graphviz and PyGraphviz --- no longer needed with Ubuntu 20.04
 # COPY scripts/08_graphviz.sh .
@@ -154,7 +157,7 @@ RUN /bin/bash 07_snappy_and_friends.sh
 COPY scripts/09_heegaard.sh .
 RUN /bin/bash 09_heegaard.sh /sage
 
-# Scraps, move eariler eventually
+# # Scraps, move eariler eventually
 # RUN sudo apt-get update && \
 #    sudo apt-get install -y some-package && \
 #    sudo apt-get autoremove -y
@@ -162,11 +165,11 @@ RUN /bin/bash 09_heegaard.sh /sage
 
 # Config Sage's Jupyter notebook
 
-COPY scripts/11_config_jupyter.sh .
-COPY scripts/jupyter_notebook_config.py .
-COPY scripts/jupyter_lab_config.py .
-COPY scripts/sage-notebook.patch .
-RUN /bin/bash 11_config_jupyter.sh
+# COPY scripts/11_config_jupyter.sh .
+# COPY scripts/jupyter_notebook_config.py .
+# COPY scripts/jupyter_lab_config.py .
+# COPY scripts/sage-notebook.patch .
+# RUN /bin/bash 11_config_jupyter.sh
 
 
 # Setup for when you start the container.  Can always sudo to root

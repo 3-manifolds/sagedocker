@@ -3,9 +3,9 @@ SageMath Docker Image
 
 This is an attempt to standardize and streamline computational work
 that combines SnapPy, SageMath, and friends via a custom `Docker
-<http://www.docker.com>`_ image that is based around Ubuntu 20.04 LTS
+<http://www.docker.com>`_ image that is based around Ubuntu 22.04 LTS
 and the latest and greatest `SageMath <http://sagemath.org>`_. It is
-indirectly derived from the official ``sagemath/sagemath`` Docker
+directly derived from the official ``sagemath/sagemath`` Docker
 image, but includes `SnapPy <http://bitbucket.org/t3m/snappy>`_, and
 the Python interfaces to `Regina <http://regina-normal.github.io/>`_,
 and `PHCPack <http://homepages.math.uic.edu/~jan/>`_.
@@ -42,9 +42,8 @@ and in said container type::
   sage --notebook
 
 and then point your computer's web browser to
-``http://localhost:8888``.  If you want to use the beta `JupyterLab
-<https://jupyterlab.readthedocs.io/en/stable/>`_, which will
-eventually superseded Jupyter, you can instead do::
+``http://localhost:8888``.  If you want to use `JupyterLab
+<https://jupyterlab.readthedocs.io/en/stable/>`_, you can instead do::
 
    sage --notebook jupyterlab
 
@@ -55,9 +54,9 @@ Python 2 versus Python 3
 ========================
 
 The images for SageMath 8.9 and older use Python 2 (and Ubuntu 16.04)
-and those for SageMath 9.0 and newer use Python 3 (and Ubuntu 18.04 or
-20.04).  You can always request Docker run a particular version of the image,
-for example if you want SageMath 8.9 do::
+and those for SageMath 9.0 and newer use Python 3 (and Ubuntu 18.04,
+20.04, or 22.04).  You can always request Docker run a particular
+version of the image, for example if you want SageMath 8.9 do::
 
   docker run -it computop/sage:8.9
 

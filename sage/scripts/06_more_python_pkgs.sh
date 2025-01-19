@@ -12,9 +12,9 @@ sage -pip install --no-cache-dir --upgrade pip setuptools virtualenv wheel
 # pillow and sphinx, respectively, but aren't for whatever reason.
 sage -pip install --no-cache-dir olefile sphinxcontrib-websupport
 sage -pip install --no-cache-dir mysqlclient sqlalchemy pycosat versioneer
-sage -pip install --no-cache-dir --upgrade --no-binary :all: \
+sage -pip install --no-cache-dir --upgrade \
      --no-build-isolation \
-     "pandas<2.0" matplotlib
+     pandas matplotlib
 
 # Just in case
 rm -rf /home/sage/.cache

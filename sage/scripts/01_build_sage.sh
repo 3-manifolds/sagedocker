@@ -9,9 +9,9 @@ fi
 set -e  # exit when any command fails
 chown -R sage:sage /sage
 
-# Cap the number of cores at four as have had problems when it tries
+# Cap the number of cores at six as have had problems when it tries
 # to use large numbers of cores.
-N_CORES=$(python3 -c 'import multiprocessing as mp; print(max(mp.cpu_count(), 4))')
+N_CORES=$(python3 -c 'import multiprocessing as mp; print(min(mp.cpu_count(), 6))')
 
 # The next line builds Sage so that it supports more processors,
 # specifically avoiding certain newer processor instructions.  As of
@@ -72,10 +72,6 @@ echo exit | sudo -H -E -u sage /sage/sage
 
 
 SAGE_VENV=$(/usr/bin/sage -python -c 'import os; print(os.environ["SAGE_VENV"])')
-
-# Alias "python" to "python3"
-
-sudo -H -E -u sage ln -s $SAGE_VENV/bin/python3 $SAGE_VENV/bin/python
 
 # Make SAGE_LOCAL everyones default environment
 echo "export SAGE_ROOT=/sage" >> /sage/activate

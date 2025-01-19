@@ -36,7 +36,7 @@ build_phc ()
 {
     unpack_source PHC
     cd PHC_src
-    patch -p1 --input ../PHC.patch
+    patch -p1 --binary --input ../PHC.patch
     cd src/Objects
     make -f makefile_unix phcpy2c3.so
     cd ../Python/PHCpy3

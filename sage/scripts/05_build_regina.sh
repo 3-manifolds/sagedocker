@@ -8,6 +8,7 @@ export TARBALL_DIR=$2
 N_CORES=$(python -c 'import multiprocessing as mp; print(mp.cpu_count())')
 PYTHON_VERSION=$(python -c 'import sys; print("%d.%d" % sys.version_info[:2])')
 
+N_CORES=4
 echo "Sage local: $SAGE_LOCAL"
 echo "Sage venv: $SAGE_VENV"
 echo "Cores: $N_CORES"
