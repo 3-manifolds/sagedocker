@@ -3,20 +3,27 @@ set -e  # exit when any command fails
 
 . /home/sage/sage/activate
 
-# JupyterLab: can't do on one line as ipympl chokes without jupyter_packaging
-#sage -pip install --no-cache-dir --upgrade jupyter_client jupyter_core jupyter-events \
-#     jupyter-lsp jupyter_packaging jupyter_server jupyter_server_terminals \
-#     jupyter-sphinx jupyterlab jupyterlab_mathjax2 jupyterlab-pygments jupyterlab_server \
-#     jupyterlab-widgets notebook notebook_shim
-#sage -pip install --no-cache-dir jupyter_packaging
+# First we overwrite Sage's somewhat shambolic Jupyter setup.
+# This also installs jupyter_packaging
+sage -pip install --no-cache-dir --requirement modern_jupyter_reqs.txt
 
+# Do this as a separate step, not sure this is necessary any more.
+sage -pip install --no-cache-dir ipympl
 
-#sage -pip install --no-cache-dir ipympl
+# Copy in the config files.  Can't put them in
+# $SAGE_VENV/share/jupyter because (I think) the json versions there
+# take precedence.  In addition to dropping all shields, keeps logging
+# messages to an absolute minimum.
 
-#cat jupyter_notebook_config.py >> \
-#    $SAGE_VENV/etc/jupyter/jupyter_notebook_config.py
+mkdir -p /home/sage/.sage/jupyter-4.1
+cp jupyter_server_config.py /home/sage/.sage/jupyter-4.1/
+cp jupyter_notebook_config.py /home/sage/.sage/jupyter-4.1/
 
-#cat jupyter_lab_config.py >> \
-#    $SAGE_VENV/etc/jupyter/jupyter_lab_config.py
+# Patch sage-notebook so that:
+#
+# a) Prints URL to connect to.
+#
+# b) Silences all the deprecation warnings between the various Jupyter
+#    components.
 
-# patch $SAGE_ROOT/src/bin/sage-notebook sage-notebook.patch
+patch $SAGE_VENV/bin/sage-notebook sage-notebook.patch

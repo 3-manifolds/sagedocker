@@ -117,7 +117,7 @@ RUN /bin/bash 09_heegaard.sh ~sage/sage
 
 # Finally add SnapPy and other core t3m projects
 
-ARG SILLY=1
+ARG SILLY=3
 COPY scripts/07_snappy_and_friends.sh .
 COPY scripts/test_more_cusps.py .
 RUN /bin/bash 07_snappy_and_friends.sh
@@ -125,10 +125,8 @@ RUN /bin/bash 07_snappy_and_friends.sh
 # Config Sage's Jupyter notebook
 
 COPY scripts/11_config_jupyter.sh .
-COPY scripts/jupyter_notebook_config.py .
-COPY scripts/jupyter_lab_config.py .
-COPY scripts/sage-notebook.patch .
-# RUN /bin/bash 11_config_jupyter.sh
+COPY scripts/jupyter_files .
+RUN /bin/bash 11_config_jupyter.sh
 
 
 USER sage

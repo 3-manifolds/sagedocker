@@ -4,8 +4,8 @@ set -e  # exit when any command fails
 # sage -pip --no-cache-dir install git+https://github.com/3-manifolds/low_index.git
 # sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy_manifolds.git
 # sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy_15_knots.git
-# sage -pip --no-cache-dir install git+https://github.com/3-manifolds/spherogram.git
-# sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy.git
+sage -pip --no-cache-dir install git+https://github.com/3-manifolds/spherogram.git
+sage -pip --no-cache-dir install git+https://github.com/3-manifolds/snappy.git
 sage -pip --no-cache-dir install snappy snappy_15_knots
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/pe.git
 sage -pip --no-cache-dir install git+https://github.com/3-manifolds/gridlink.git

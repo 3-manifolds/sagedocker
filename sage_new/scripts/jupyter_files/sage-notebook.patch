@@ -1,0 +1,40 @@
+--- sage-notebook.orig	2025-01-19 16:52:35
++++ sage-notebook	2025-01-19 16:49:48
+@@ -21,7 +21,7 @@
+ class NotebookJupyter():
+ 
+     def print_banner(self):
+-        print('Please wait while the Sage Jupyter Notebook server starts...')
++        print('Starting up Sage Jupyter Notebook, viewable at http://localhost:8888')
+ 
+     @classmethod
+     def print_help(cls):
+@@ -36,6 +36,8 @@
+             except ImportError:
+                 # notebook 7
+                 from notebook.app import main
++                import warnings
++                warnings.filterwarnings("ignore", category=DeprecationWarning)
+         except ImportError:
+             import traceback
+             traceback.print_exc()
+@@ -51,8 +53,9 @@
+ 
+ class NotebookJupyterlab():
+     def print_banner(self):
+-        print('Please wait while the Jupyterlab server starts...')
++        print('Starting up Sage JupyterLab, viewable at http://localhost:8888')
+ 
++
+     @classmethod
+     def print_help(cls):
+         cls(['help'])
+@@ -60,6 +63,8 @@
+     def __init__(self, argv):
+         try:
+             from jupyterlab.labapp import main
++            import warnings
++            warnings.filterwarnings("ignore", category=DeprecationWarning) 
+         except ImportError:
+             import traceback
+             traceback.print_exc()
