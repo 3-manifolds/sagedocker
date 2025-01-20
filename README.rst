@@ -42,13 +42,19 @@ and in said container type::
   sage --notebook
 
 and then point your computer's web browser to
-``http://localhost:8888``.  If you want to use `JupyterLab
+``http://localhost:8888``.  As of ``computop/sage:10.5``, this uses
+`Notebook 7
+<https://jupyter-notebook.readthedocs.io/en/latest/notebook_7_features.html>`_.
+If you want interactive plots with MatplotLib, the command is now
+``%matplotlib widget`` rather than ``%matplotlib notebook``.
+
+If you want to use `JupyterLab
 <https://jupyterlab.readthedocs.io/en/stable/>`_, you can instead do::
 
    sage --notebook jupyterlab
 
 In JupyterLab, you have access not just to notebooks but also Python
-consoles and shell terminal windows.
+consoles and shell terminal windows.  
 
 Python 2 versus Python 3
 ========================
